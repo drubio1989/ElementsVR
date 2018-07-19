@@ -3,7 +3,7 @@ const elements = [
   // {symbol:"He", name:"Helium", weight:"4.002602"},
   // {symbol:"Li", name:"Lithium", weight:"6.941"},
   // {symbol:"Be", name:"Beryllium", weight:"9.012182"},
-  // {symbol:"B", name:"Boron", weight:"10.811"}
+  // {symbol:"B", name:"Boron", weight:"10.811"},
   // {symbol:"C", name:"Carbon", weight:"12.0107"},
   // {symbol:"N", name:"Nitrogen", weight:"14.0067"},
   // {symbol:"O", name:"Oxygen", weight:"15.9994"},
@@ -30,34 +30,34 @@ const elements = [
   // {symbol:"Cu", name:"Copper", weight:"63.546"},
   // {symbol:"Zn", name:"Zinc", weight:"65.38"},
   // {symbol:"Ga", name:"Gallium", weight:"69.723"},
-  // {symbol:"Ge", name:"Germanium", weight:"72.63",
-  // {symbol:"As", name:"Arsenic", weight:"74.9216",
-  // {symbol:"Se", name:"Selenium", weight:"78.96",
-  // {symbol:"Br", name:"Bromine", weight:"79.904",
-  // {symbol:"Kr", name:"Krypton", weight:"83.798",
-  // {symbol:"Rb", name:"Rubidium", weight:"85.4678",
-  // {symbol:"Sr", name:"Strontium", weight:"87.62",
-  // {symbol:"Y", name:"Yttrium", weight:"88.90585",
-  // {symbol:"Zr", name:"Zirconium", weight:"91.224",
-  // {symbol:"Nb", name:"Niobium", weight:"92.90628",
-  // {symbol:"Mo", name:"Molybdenum", weight:"95.96",
-  // {symbol:"Tc", name:"Technetium", weight:"(98)",
-  // {symbol:"Ru", name:"Ruthenium", weight:"101.07",
-  // {symbol:"Rh", name:"Rhodium", weight:"102.9055",
-  // {symbol:"Pd", name:"Palladium", weight:"106.42",
-  // {symbol:"Ag", name:"Silver", weight:"107.8682",
-  // {symbol:"Cd", name:"Cadmium", weight:"112.411",
-  // {symbol:"In", name:"Indium", weight:"114.818",
-  // {symbol:"Sn", name:"Tin", weight:"118.71",
-  // {symbol:"Sb", name:"Antimony", weight:"121.76",
-  // {symbol:"Te", name:"Tellurium", weight:"127.6",
-  // {symbol:"I", name:"Iodine", weight:"126.90447",
-  // {symbol:"Xe", name:"Xenon", weight:"131.293",
-  // {symbol:"Cs", name:"Caesium", weight:"132.9054",
-  // {symbol:"Ba", name:"Barium", weight:"132.9054",
-  // {symbol:"La", name:"Lanthanum", weight:"138.90547",
-  // {symbol:"Ce", name:"Cerium", weight:"140.116",
-  // {symbol:"Pr", name:"Praseod,ymium", weight:"140.90765",
+  // {symbol:"Ge", name:"Germanium", weight:"72.63"},
+  // {symbol:"As", name:"Arsenic", weight:"74.9216"},
+  // {symbol:"Se", name:"Selenium", weight:"78.96"},
+  // {symbol:"Br", name:"Bromine", weight:"79.904"},
+  // {symbol:"Kr", name:"Krypton", weight:"83.798"},
+  // {symbol:"Rb", name:"Rubidium", weight:"85.4678"},
+  // {symbol:"Sr", name:"Strontium", weight:"87.62"},
+  // {symbol:"Y", name:"Yttrium", weight:"88.90585"},
+  // {symbol:"Zr", name:"Zirconium", weight:"91.224"},
+  // {symbol:"Nb", name:"Niobium", weight:"92.90628"},
+  // {symbol:"Mo", name:"Molybdenum", weight:"95.96"},
+  // {symbol:"Tc", name:"Technetium", weight:"(98)"},
+  // {symbol:"Ru", name:"Ruthenium", weight:"101.07"},
+  // {symbol:"Rh", name:"Rhodium", weight:"102.9055"},
+  // {symbol:"Pd", name:"Palladium", weight:"106.42"},
+  // {symbol:"Ag", name:"Silver", weight:"107.8682"},
+  // {symbol:"Cd", name:"Cadmium", weight:"112.411"},
+  // {symbol:"In", name:"Indium", weight:"114.818"},
+  // {symbol:"Sn", name:"Tin", weight:"118.71"},
+  // {symbol:"Sb", name:"Antimony", weight:"121.76"},
+  // {symbol:"Te", name:"Tellurium", weight:"127.6"},
+  // {symbol:"I", name:"Iodine", weight:"126.90447"},
+  // {symbol:"Xe", name:"Xenon", weight:"131.293"},
+  // {symbol:"Cs", name:"Caesium", weight:"132.9054"},
+  // {symbol:"Ba", name:"Barium", weight:"132.9054"},
+  // {symbol:"La", name:"Lanthanum", weight:"138.90547"},
+  // {symbol:"Ce", name:"Cerium", weight:"140.116"},
+  // {symbol:"Pr", name:"Praseod,ymium", weight:"140.90765"},
   // {symbol:"Nd", name:"Neod,ymium", weight:"144.242"},
   // {symbol:"Pm", name:"Promethium", weight:"(145)"},
   // {symbol:"Sm", name:"Samarium", weight:"150.36"},
@@ -119,7 +119,8 @@ const elements = [
 ];
 
 periodicNumber = 1
-let sceneElement = document.querySelector('a-scene');
+let sceneEl = document.querySelector('a-scene');
+// let menu = sceneEl.getChildren()[0];
 
 for (const element in elements) {
   let number = (periodicNumber).toString();
@@ -129,8 +130,11 @@ for (const element in elements) {
 
   let elementPanel = document.createElement('a-plane');
   elementPanel.setAttribute('color', '#C70039');
-  elementPanel.setAttribute('height', '2');
-  elementPanel.setAttribute('width', '2');
+  elementPanel.setAttribute('height', '1');
+  elementPanel.setAttribute('width', '1');
+  elementPanel.setAttribute('position', { x:2, y:0, z:-1 });
+  elementPanel.setAttribute('rotation', {x:0, y:-45, z:0});
+
 
   elementPanel.setAttribute('element-info', {
     number: number,
@@ -139,7 +143,7 @@ for (const element in elements) {
     weight: weight
   });
 
-  sceneElement.appendChild(elementPanel);
+  sceneEl.appendChild(elementPanel);
 
   periodicNumber++;
 }

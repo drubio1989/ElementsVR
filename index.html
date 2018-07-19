@@ -6,13 +6,19 @@
     <meta name="description" content="ElementsVR">
     <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
     <script src="src/js/components/element-tile.js"></script>
-    <!-- <script src="src/js/wikipedia.js"></script> -->
+    <script src="src/js/wikipedia.js"></script>
   </head>
   <body>
-    <a-scene>
+    <a-scene background="color: #FF5733">
       <a-entity position="0 0 0" rotation="0 0 0">
         <a-camera></a-camera>
       </a-entity>
+      <a-sphere position="0 0 -3" color="red" radius="1">
+        <a-entity position="0 0 -3">
+          <a-sphere color="yellow" position="0 -3 0" radius="0.25"></a-sphere>
+          <a-animation attribute="rotation" dur="2000" to="0 0 360" repeat="indefinite"></a-animation>
+        </a-entity>
+      </a-sphere>
     </a-scene>
   </body>
   <script src="src/js/elements.js"></script>

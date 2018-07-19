@@ -3,7 +3,7 @@ const elements = [
   // {symbol:"He", name:"Helium", weight:"4.002602"},
   // {symbol:"Li", name:"Lithium", weight:"6.941"},
   // {symbol:"Be", name:"Beryllium", weight:"9.012182"},
-  // {symbol:"B", name:"Boron", weight:"10.811"},
+  // {symbol:"B", name:"Boron", weight:"10.811"}
   // {symbol:"C", name:"Carbon", weight:"12.0107"},
   // {symbol:"N", name:"Nitrogen", weight:"14.0067"},
   // {symbol:"O", name:"Oxygen", weight:"15.9994"},
@@ -122,46 +122,24 @@ periodicNumber = 1
 let sceneElement = document.querySelector('a-scene');
 
 for (const element in elements) {
-  // let tile = document.createElement('a-entity');
   let number = (periodicNumber).toString();
   let symbol = elements[element]["symbol"];
   let name = elements[element]["name"];
   let weight = elements[element]["weight"];
 
-  // Create the base panel
   let elementPanel = document.createElement('a-plane');
   elementPanel.setAttribute('color', '#C70039');
-  elementPanel.setAttribute('height', '3');
-  elementPanel.setAttribute('width', '3');
-  elementPanel.setAttribute('element-info', '');
+  elementPanel.setAttribute('height', '2');
+  elementPanel.setAttribute('width', '2');
+
+  elementPanel.setAttribute('element-info', {
+    number: number,
+    symbol: symbol,
+    name: name,
+    weight: weight
+  });
+
   sceneElement.appendChild(elementPanel);
-
-  //Create the tile information
-  let weightInfo = document.createElement('a-text');
-  weightInfo.setAttribute('value', weight);
-  weightInfo.setAttribute('align','center');
-  weightInfo.setAttribute('baseline', 'bottom');
-  weightInfo.setAttribute('position', {x: 0, y:-1.25, z:0 });
-  elementPanel.appendChild(weightInfo);
-
-  let nameInfo = document.createElement('a-text');
-  nameInfo.setAttribute('value', name);
-  nameInfo.setAttribute('align','center');
-  nameInfo.setAttribute('position', {x: 0, y:-0.25, z:0 });
-  elementPanel.appendChild(nameInfo);
-
-  let symbolInfo = document.createElement('a-text');
-  symbolInfo.setAttribute('value', symbol);
-  symbolInfo.setAttribute('align', 'center');
-  symbolInfo.setAttribute('height', '5');
-  elementPanel.appendChild(symbolInfo);
-
-  let numberInfo = document.createElement('a-text');
-  numberInfo.setAttribute('value', number);
-  numberInfo.setAttribute('align', 'center');
-  numberInfo.setAttribute('baseline', 'top');
-  numberInfo.setAttribute('position', {x: 0, y:1.25, z:0 });
-  elementPanel.appendChild(numberInfo);
 
   periodicNumber++;
 }

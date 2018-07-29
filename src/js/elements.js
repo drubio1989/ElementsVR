@@ -1,3 +1,6 @@
+// I'm going to need to rewrite all of this.
+
+
 const elements = [
   {symbol: "H", name:'Hydrogen', weight: "1.00794"}
   // {symbol:"He", name:"Helium", weight:"4.002602"},

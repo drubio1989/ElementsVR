@@ -1,8 +1,6 @@
 // This will get triggered when you select an element
 // The number of electrons will be variable
 
-// let sceneEl = document.querySelector('a-scene');
-
 let backgroundEntity = document.createElement('a-entity');
 backgroundEntity.setAttribute('layout', {
   type: 'dodecahedron',

@@ -1,4 +1,6 @@
-AFRAME.registerComponent("element-info",{
+// This needs to be refactored
+
+AFRAME.registerComponent("element-text-info",{
   schema:{
     number: {type: 'string'},
     symbol: {type: 'string'},

@@ -7,26 +7,39 @@
     <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-layout-component@4.2/dist/aframe-layout-component.min.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
-    <script src="src/js/components/element-tile.js"></script>
-    <script src="src/js/menu.js"></script>
+    <script src="https://rawgit.com/protyze/aframe-curve-component/master/dist/aframe-curve-component.min.js"></script>
+    <script src="https://rawgit.com/protyze/aframe-alongpath-component/master/dist/aframe-alongpath-component.min.js"></script>
+    <script src="https://rawgit.com/rdub80/aframe-gui/master/dist/aframe-gui.min.js"></script>
+    <script src="src/js/components/group-spheres.js"></script>
+    <script src="src/js/components/group-menu-text.js"></script>
+    <script src="src/js/components/element-box.js"></script>
+    <script type="text/javascript">
+      function returnToMainMenu() {
+        let sceneEl = document.querySelector('a-scene');
+        elBoxes = sceneEl.querySelectorAll('a-box');
+        for (let i = 0; i < elBoxes.length; i++) {
+          elBoxes[i].parentNode.removeChild(elBoxes[i]);
+        }
+
+        let guiButton = document.querySelector('a-gui-button');
+        guiButton.parentNode.removeChild(guiButton);
+        renderMainMenu();
+      }
+
+    </script>
   </head>
   <body>
-    <a-scene background="color: #00C5CD">
-      <a-entity id=#menu layout="type: line; margin: 1" position="-2 0.5 -2">
-        <a-circle class="element" color="purple" radius="-0.25" element-selection="group: alkali-metals;"></a-circle>
-        <a-circle class="element" color="pink" radius="-0.25" element-selection="group: alkaline-earth-metals;"></a-circle>
-        <a-circle class="element" color="#8b4c40" radius="-0.25" element-selection="group: lanthanides;"></a-circle>
-        <a-circle class="element" color="#8a2be2" radius="-0.25" element-selection="group: actinides;"></a-circle>
-        <a-circle class="element" color="orange" radius="-0.25" element-selection="group: transition-metals;"></a-circle>
-      </a-entity>
-      <a-entity layout="type: line; margin: 1" position="-2 -0.5 -2">
-        <a-circle color="purple" radius="-0.25" element-selection="group: post-transition-metals;"></a-circle>
-        <a-circle color="pink" radius="-0.25" element-selection="group: metalloid;"></a-circle>
-        <a-circle color="#8b4c40" radius="-0.25" element-selection="group: non-metals;"></a-circle>
-        <a-circle color="#8a2be2" radius="-0.25" element-selection="group: halogens;"></a-circle>
-        <a-circle color="orange" radius="-0.25" element-selection="group: noble-gases;"></a-circle>
-        <a-circle color="orange" radius="-0.25" element-selection="group: unknown-properties;"></a-circle>
-      </a-entity>
+    <a-scene background="color: black">
+      <a-assets>
+        <!-- <img id="ambient" crossorigin="anonymous" src="https://ucarecdn.com/ea3ae864-41ca-4dab-8178-4a626f965ef6/"> -->
+         <!-- <a-asset-item id="atom" src="src/models/atom/scene.gltf"></a-asset-item> -->
+         <!-- <a-entity gltf-model="#atom" scale="0.01 0.01 0.01" animation-mixer></a-entity> -->
+      </a-assets>
+
+      <!-- <a-sky src="#ambient"></a-sky> -->
+      <a-entity id=#menu layout="type: circle; radius: 1.25" position="0 0 -0.8"></a-entity>
+
+
 
       <!--This is the actual atom -->
       <!-- <a-sphere position="0 0 -3" color="red" radius="1">
@@ -37,11 +50,12 @@
       </a-sphere> -->
       <a-entity position="0 0 0" rotation="0 0 0">
         <a-camera>
-          <a-cursor></a-cursor>
+          <a-cursor material="color: white;"></a-cursor>
         </a-camera>
       </a-entity>
     </a-scene>
   </body>
+  <script src="src/js/components/main-menu.js"></script>
   <!-- <script src="src/js/atom-scene.js"></script>
   <script src="src/js/wikipedia.js"></script> -->
 </html>

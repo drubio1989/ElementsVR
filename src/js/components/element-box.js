@@ -1,0 +1,44 @@
+AFRAME.registerComponent("element-box-info",{
+  schema:{
+    color: {default: '#FFF'},
+    number: {type: 'string'},
+    symbol: {type: 'string'},
+    name: {type: 'string'},
+    weight: {type: 'string'}
+  },
+
+  init: function () {
+    let el = this.el;
+    el.setAttribute('opacity','0.5');
+    el.setAttribute('width','0.3');
+    el.setAttribute('depth','0.3');
+    el.setAttribute('height','0.3');
+    el.setAttribute('color', this.data.color);
+
+    let [numberInfo, weightInfo, nameInfo, symbolInfo] = [this.data.number,
+                                                          this.data.weight,
+                                                          this.data.name,
+                                                          this.data.symbol];
+    for (text of [numberInfo, weightInfo, nameInfo, symbolInfo]) {
+      let textEl = document.createElement('a-text');
+      textEl.setAttribute('value', text);
+      textEl.setAttribute('align', 'center');
+      textEl.setAttribute('wrap-count', 150);
+
+      if (text === numberInfo) {
+        textEl.setAttribute('baseline', 'top');
+        textEl.setAttribute('position', {x: 0, y:0.13, z:0.15 });
+      } else if (text === weightInfo) {
+          textEl.setAttribute('baseline', 'bottom');
+          textEl.setAttribute('position', {x: 0, y:-0.14, z:0.15 });
+      } else if (text === nameInfo) {
+          textEl.setAttribute('position', {x: 0, y:-0.05, z:0.15 });
+      } else if (text === symbolInfo) {
+          textEl.setAttribute('height', '5');
+          textEl.setAttribute('position', {x: 0, y:0, z:0.15 });
+      }
+
+      el.appendChild(textEl);
+    }
+  }
+});

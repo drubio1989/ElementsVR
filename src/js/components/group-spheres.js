@@ -18,7 +18,6 @@ AFRAME.registerComponent("group-spheres", {
         parentMenu.removeChild(parentMenu.firstChild);
       }
 
-
       // Creating the Main Menu Button
       // I may need to refactor this.......
       let sceneEl = document.querySelector('a-scene');

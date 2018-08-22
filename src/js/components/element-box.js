@@ -8,7 +8,7 @@ AFRAME.registerComponent("element-box-info",{
   },
 
   init: function () {
-    let el = this.el;
+    let [parentMenu, el] = [this.el.parentNode,this.el];
     el.setAttribute('opacity','0.5');
     el.setAttribute('width','0.3');
     el.setAttribute('depth','0.3');
@@ -40,5 +40,17 @@ AFRAME.registerComponent("element-box-info",{
 
       el.appendChild(textEl);
     }
+
+    el.addEventListener('mouseenter', function (event) {
+      // Remove all elements
+      while (parentMenu.firstChild) {
+        parentMenu.removeChild(parentMenu.firstChild);
+      }
+
+      let sceneEl = document.querySelector('a-scene');
+      let atom = document.createElement('a-sphere');
+      atom.setAttribute('electrons-and-protons', {atomicNumber: numberInfo});
+      sceneEl.appendChild(atom);
+    });
   }
 });

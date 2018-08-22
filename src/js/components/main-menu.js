@@ -176,7 +176,7 @@ const elementData = {
 
 function renderMainMenu() {
   for (let property in elementData) {
-    let menuContainer = document.getElementById('#menu');
+    let menuContainer = document.getElementById('menu');
 
     let sphereContainer = document.createElement('a-sphere');
     sphereContainer.setAttribute('group-spheres',{color: elementData[property]["color"],

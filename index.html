@@ -13,6 +13,7 @@
     <script src="src/js/components/group-spheres.js"></script>
     <script src="src/js/components/group-menu-text.js"></script>
     <script src="src/js/components/element-box.js"></script>
+    <script src="src/js/components/atom.js"></script>
     <script type="text/javascript">
       function returnToMainMenu() {
         let sceneEl = document.querySelector('a-scene');
@@ -25,37 +26,27 @@
         guiButton.parentNode.removeChild(guiButton);
         renderMainMenu();
       }
-
     </script>
   </head>
   <body>
     <a-scene background="color: black">
       <a-assets>
-        <!-- <img id="ambient" crossorigin="anonymous" src="https://ucarecdn.com/ea3ae864-41ca-4dab-8178-4a626f965ef6/"> -->
          <!-- <a-asset-item id="atom" src="src/models/atom/scene.gltf"></a-asset-item> -->
          <!-- <a-entity gltf-model="#atom" scale="0.01 0.01 0.01" animation-mixer></a-entity> -->
       </a-assets>
 
-      <!-- <a-sky src="#ambient"></a-sky> -->
-      <a-entity id=#menu layout="type: circle; radius: 1.25" position="0 0 -0.8"></a-entity>
+      <!-- Main Menu Container -->
+      <a-entity id=menu layout="type: circle; radius: 1.25" position="0 0 -0.8"></a-entity>
 
-
-
-      <!--This is the actual atom -->
-      <!-- <a-sphere position="0 0 -3" color="red" radius="1">
-        <a-entity position="0 0 -3">
-          <a-sphere color="yellow" position="0 -3 0" radius="0.25"></a-sphere>
-          <a-animation attribute="rotation" dur="2000" to="0 0 360" repeat="indefinite"></a-animation>
-        </a-entity>
-      </a-sphere> -->
+      <!-- Camera -->
       <a-entity position="0 0 0" rotation="0 0 0">
         <a-camera>
           <a-cursor material="color: white;"></a-cursor>
         </a-camera>
       </a-entity>
+
     </a-scene>
   </body>
   <script src="src/js/components/main-menu.js"></script>
-  <!-- <script src="src/js/atom-scene.js"></script>
-  <script src="src/js/wikipedia.js"></script> -->
+  <!-- <script src="src/js/wikipedia.js"></script> -->
 </html>

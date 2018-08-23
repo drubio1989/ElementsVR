@@ -49,7 +49,8 @@ AFRAME.registerComponent("element-box-info",{
 
       let sceneEl = document.querySelector('a-scene');
       let atom = document.createElement('a-sphere');
-      atom.setAttribute('electrons-and-protons', {atomicNumber: numberInfo});
+      atom.setAttribute('charged-particles', {atomicNumber: parseInt(numberInfo),
+                                              massNumber: Math.floor(parseFloat(weightInfo))});
       sceneEl.appendChild(atom);
     });
   }

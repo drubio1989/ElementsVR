@@ -1,6 +1,7 @@
-AFRAME.registerComponent('electrons-and-protons', {
+AFRAME.registerComponent('charged-particles', {
   schema: {
-    atomicNumber: {type: 'int'}
+    atomicNumber: {type: 'int'},
+    massNumber: {type: 'int'}
   },
 
   _electronConfiguration: function(atomicNumber, subShells) {
@@ -56,6 +57,21 @@ AFRAME.registerComponent('electrons-and-protons', {
       } while (numberOfCurvePoints < 5);
 
     } while (numberOfShells > 0);
+  },
+
+  neutrons: function(nucleus, massNumber, atomicNumber) {
+    console.log(massNumber - atomicNumber);
+    let neutronNumber = massNumber - atomicNumber
+    do {
+      let neutron = document.createElement('a-sphere');
+      neutron.setAttribute('color','red');
+      neutron.setAttribute('radius', 0.05);
+      neutron.setAttribute('position', {x:(Math.random() * 0.3) - 0.2,
+                                       y:(Math.random() * 0.3) - 0.2,
+                                       z:(Math.random() * 0.3) - 0.2});
+      nucleus.appendChild(neutron);
+      neutronNumber = neutronNumber - 1;
+    } while (neutronNumber > 0);
   },
 
   protons: function(nucleus, atomicNumber) {
@@ -262,8 +278,10 @@ AFRAME.registerComponent('electrons-and-protons', {
 
     // Create the protons, electrons, and neutrons
     let atomicNumber = this.data.atomicNumber;
+    let massNumber = this.data.massNumber;
+
     this.protons(el, atomicNumber);
     this.electrons(atomicNumber);
-    //this.createNeutrons
+    this.neutrons(el, massNumber, atomicNumber);
   }
 });

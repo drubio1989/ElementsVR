@@ -8,22 +8,25 @@ AFRAME.registerComponent("element-box-info",{
   },
 
   init: function () {
-    let [parentMenu, el] = [this.el.parentNode,this.el];
+    let [parentMenu, el, color] = [this.el.parentNode, this.el, this.data.color];
     el.setAttribute('opacity','0.5');
     el.setAttribute('width','0.3');
     el.setAttribute('depth','0.3');
     el.setAttribute('height','0.3');
-    el.setAttribute('color', this.data.color);
+    el.setAttribute('color', color);
+    el.setAttribute('animation__scale',{property: 'scale', dur: 2000, easing: "easeInSine",
+                                        loop: false, from: {x:0,y:0, z:0}, to: {x:1,y:1, z:1}});
 
     let [numberInfo, weightInfo, nameInfo, symbolInfo] = [this.data.number,
                                                           this.data.weight,
                                                           this.data.name,
                                                           this.data.symbol];
+
     for (text of [numberInfo, weightInfo, nameInfo, symbolInfo]) {
       let textEl = document.createElement('a-text');
       textEl.setAttribute('value', text);
       textEl.setAttribute('align', 'center');
-      textEl.setAttribute('wrap-count', 150);
+      textEl.setAttribute('wrap-count', 200);
 
       if (text === numberInfo) {
         textEl.setAttribute('baseline', 'top');
@@ -41,7 +44,15 @@ AFRAME.registerComponent("element-box-info",{
       el.appendChild(textEl);
     }
 
-    el.addEventListener('mouseenter', function (event) {
+    el.addEventListener('mouseenter', function () {
+      el.setAttribute('opacity', 1);
+    });
+
+    el.addEventListener('mouseleave', function() {
+      el.setAttribute('opacity', 0.5)
+    });
+
+    el.addEventListener('click', function (event) {
       // Remove all elements
       while (parentMenu.firstChild) {
         parentMenu.removeChild(parentMenu.firstChild);
@@ -49,7 +60,10 @@ AFRAME.registerComponent("element-box-info",{
 
       let sceneEl = document.querySelector('a-scene');
       let atom = document.createElement('a-sphere');
-      atom.setAttribute('charged-particles', {atomicNumber: parseInt(numberInfo),
+      atom.setAttribute('animation__scale',{property: 'scale', dur: 2000, easing: "easeInSine",
+                                          loop: false, from: {x:0,y:0, z:0}, to: {x:1,y:1, z:1}});
+      atom.setAttribute('charged-particles', {color: color,
+                                              atomicNumber: parseInt(numberInfo),
                                               massNumber: Math.floor(parseFloat(weightInfo))});
       sceneEl.appendChild(atom);
     });

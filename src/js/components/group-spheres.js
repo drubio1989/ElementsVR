@@ -1,6 +1,7 @@
 AFRAME.registerComponent("group-spheres", {
   schema:{
     color: {default: '#FFF'},
+    groupName: {type: 'string'},
     elements: {type: 'array'}
   },
 
@@ -8,29 +9,44 @@ AFRAME.registerComponent("group-spheres", {
     let listOfElements = this.data.elements;
     let color = this.data.color;
     let [parentMenu, el] = [this.el.parentNode, this.el];
+    let groupName = this.data.groupName;
 
-    el.setAttribute('radius', -0.15);
+    el.setAttribute('radius', -0.6);
     el.setAttribute('color', color);
+    el.setAttribute('opacity', 0.5);
+    el.setAttribute('animation__scale',{property: 'scale', dur: 2000, easing: "easeInSine",
+                                        loop: false, from: {x:0,y:0, z:0}, to: {x:1,y:1, z:1}});
+
+    let ringCount = 3;
+    let rotation = -45;
+
+    // Creates the orbital rings around the menu atom
+    do {
+      let orbitalRing = document.createElement('a-ring');
+      orbitalRing.setAttribute('color', '#a3a8ac');
+      orbitalRing.setAttribute('scale', {x:0.5, y: 0.5, z:0.5});
+      orbitalRing.setAttribute('radius-inner', 0.5);
+      orbitalRing.setAttribute('radius-outer', 0.55);
+      orbitalRing.setAttribute('rotation', {x:rotation, y: rotation, z:0});
+      el.appendChild(orbitalRing);
+      rotation = rotation + 45;
+      ringCount = ringCount - 1;
+    } while (ringCount > 0);
+
 
     el.addEventListener('mouseenter', function () {
+      el.setAttribute('opacity', 1);
+    });
+
+    el.addEventListener('mouseleave', function() {
+      el.setAttribute('opacity', 0.5);
+    })
+
+    el.addEventListener('click', function () {
       // Remove all elements
       while (parentMenu.firstChild) {
         parentMenu.removeChild(parentMenu.firstChild);
       }
-
-      // Creating the Main Menu Button
-      // I may need to refactor this.......
-      let sceneEl = document.querySelector('a-scene');
-      let mainMenuButton = document.createElement('a-gui-button');
-      mainMenuButton.setAttribute('value','Main Menu');
-      mainMenuButton.setAttribute('font','roboto');
-      mainMenuButton.setAttribute('scale', {x:0.5, y:0.5, z:0.5});
-      mainMenuButton.setAttribute('position',{x:0, y:0, z:-2});
-      mainMenuButton.setAttribute('font-size', '50px');
-      mainMenuButton.setAttribute('background-color','#9F2CE9');
-      mainMenuButton.setAttribute('onclick',"returnToMainMenu");
-      sceneEl.appendChild(mainMenuButton);
-
       //Create the element boxes
       for (el of listOfElements) {
         let [number, symbol, name, weight] = [el["number"], el["symbol"], el["name"], el["weight"]];
@@ -44,7 +60,7 @@ AFRAME.registerComponent("group-spheres", {
           weight: weight
         });
 
-        parentMenu.appendChild(elementBox);
+        document.getElementById('elementMenu').appendChild(elementBox);
       }
     });
   }

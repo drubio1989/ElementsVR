@@ -1,4 +1,4 @@
-AFRAME.registerComponent("group-menu-text", {
+AFRAME.registerComponent("menu-text", {
   schema: {
     text: {type: 'string', default: ''}
   },

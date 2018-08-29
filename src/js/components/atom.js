@@ -7,6 +7,8 @@ AFRAME.registerComponent('charged-particles', {
 
   _electronConfiguration: function(atomicNumber, subShells) {
     let ShellAndOrbitalInfo = subShells.match(/\d\D+/g);
+    let electronContainer = document.createElement('a-entity');
+    document.querySelector('a-scene').appendChild(electronContainer);
 
     for (i = 0; i < ShellAndOrbitalInfo.length; i++) {
       if (atomicNumber === 0) break;
@@ -20,7 +22,8 @@ AFRAME.registerComponent('charged-particles', {
 
       do {
         let electron = document.createElement('a-sphere');
-        electron.setAttribute('radius', 0.1);
+        electron.className = 'electron';
+        electron.setAttribute('radius', 0.05);
         electron.setAttribute('color', 'yellow');
         electron.setAttribute('alongpath', {curve: '#shell' + mainShell,
                                             delay: delayTime,
@@ -29,7 +32,7 @@ AFRAME.registerComponent('charged-particles', {
                                             triggerRadius: 0.1});
         electron.setAttribute('animation__scale',{property: 'scale', dur: 4000, easing: "easeInSine",
                                             loop: false, from: {x:0,y:0, z:0}, to: {x:1,y:1, z:1}});
-        document.querySelector('a-scene').appendChild(electron);
+        electronContainer.appendChild(electron);
         if (orbitalShape == 's')
           delayTime = delayTime + sDelayIncrement;
         else if (orbitalShape == 'p')
@@ -46,11 +49,13 @@ AFRAME.registerComponent('charged-particles', {
   },
 
   _createShell: function(numberOfShells) {
+    let curveContainer = document.createElement('a-entity');
+    document.querySelector('a-scene').appendChild(curveContainer);
     do {
       let electronShell = document.createElement('a-curve');
       electronShell.id = 'shell' + numberOfShells;
       electronShell.setAttribute('curve', {closed: true});
-      document.querySelector('a-scene').appendChild(electronShell);
+      curveContainer.appendChild(electronShell);
 
       numberOfShells = numberOfShells - 1;
 
@@ -279,7 +284,7 @@ AFRAME.registerComponent('charged-particles', {
 
   init: function() {
     let sceneEl = document.querySelector('a-scene');
-    sceneEl.setAttribute('background',{color: this.data.color});
+    // sceneEl.setAttribute('background',{color: this.data.color});
 
     el = this.el;
     el.setAttribute('color', '#4ED4F9');
@@ -293,5 +298,12 @@ AFRAME.registerComponent('charged-particles', {
     this.protons(el, atomicNumber);
     this.electrons(atomicNumber);
     this.neutrons(el, massNumber, atomicNumber);
+
+    let atomMenu = document.getElementById('atomMenuTile');
+    console.log(atomMenuTile);
+    atomMenu.setAttribute('animation__visible',{property: 'visible', dur: 2000, easing: "easeInSine",
+                                                loop: false, to: "true", repeat:"indefinite"});
+    atomMenu.setAttribute('animation__scale',{property: 'scale', dur: 750, easing: "easeInSine", fill: "backwards",
+                                              loop: false, from: {x:0,y:1, z:1}, to: {x:1,y:1, z:1}});
   }
 });

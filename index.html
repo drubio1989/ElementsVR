@@ -12,9 +12,10 @@
     <script src="https://rawgit.com/rdub80/aframe-gui/master/dist/aframe-gui.min.js"></script>
     <script src="https://unpkg.com/aframe-animation-component@^4.1.2/dist/aframe-animation-component.min.js"></script>
     <script src="src/js/components/group-spheres.js"></script>
-    <script src="src/js/components/menu-text.js"></script>
+    <script src="src/js/components/info-text.js"></script>
     <script src="src/js/components/element-box.js"></script>
     <script src="src/js/components/atom.js"></script>
+    <script src="src/js/components/background-atom.js"></script>
     <script type="text/javascript">
       const elementData = {
         "group1": {"color": "red",
@@ -194,12 +195,43 @@
       function renderMainMenu() {
         let parentContainer = document.querySelector('a-gui-flex-container').parentNode;
 
+        // Have to clean out anything from the atom scene
+        if (document.getElementById('atom') !== null) {
+          // Remove Protons and Neutrons
+          let parentContainer = document.getElementById('atom').parentNode;
+
+          while (parentContainer.firstChild) {
+            parentContainer.removeChild(parentContainer.firstChild);
+          }
+
+          // Remove Electrons
+          let electronContainer = document.querySelectorAll('.electron')[0].parentNode;
+          while (electronContainer.firstChild) {
+            electronContainer.removeChild(electronContainer.firstChild);
+          }
+
+          //Remove all the curves
+          let CurveContainer = document.getElementById('shell1').parentNode;
+          while (CurveContainer.firstChild) {
+            CurveContainer.removeChild(CurveContainer.firstChild);
+          }
+        }
+
         while (parentContainer.firstChild) {
           parentContainer.removeChild(parentContainer.firstChild);
         }
+        // parentContainer.setAttribute('animation__visible',{property: 'visible', dur: 2000, easing: "easeInSine",
+                                                    // loop: false, to: "false", repeat:"indefinite"});
 
+        let mainScene = document.createElement('a-entity');
+        mainScene.id = "mainScene";
+        mainScene.setAttribute('layout', {type: "dodecahedron", radius: 4});
+        mainScene.setAttribute('position',{x:0, y:0, z:-0.5});
+        document.querySelector('a-scene').appendChild(mainScene);
+        //
+
+        let menuContainer = document.getElementById('mainScene');
         for (let property in elementData) {
-          let menuContainer = document.getElementById('menu');
           let sphereContainer = document.createElement('a-sphere');
           sphereContainer.setAttribute('group-spheres',{color: elementData[property]["color"],
                                                         groupName: elementData[property]["name"],
@@ -207,41 +239,20 @@
           menuContainer.appendChild(sphereContainer);
         }
       }
-
-      function returnToMainMenu() {
-        let sceneEl = document.querySelector('a-scene');
-        elBoxes = sceneEl.querySelectorAll('a-box');
-        for (let i = 0; i < elBoxes.length; i++) {
-          elBoxes[i].parentNode.removeChild(elBoxes[i]);
-        }
-
-        let guiButton = document.querySelector('a-gui-button');
-        guiButton.parentNode.removeChild(guiButton);
-        renderMainMenu();
-      }
     </script>
   </head>
   <body>
     <a-scene background="color: #ffffff">
       <a-assets>
          <img id="atom-image" src="https://ucarecdn.com/9cf7730a-5b3f-4335-8aef-1d25472c45f8/">
-
-         <!-- Remove the model, its not looking very good -->
-         <a-asset-item id="atom" src="src/models/atom/scene.gltf"></a-asset-item>
       </a-assets>
 
-      <!-- Atom Background -->
-      <a-entity id="background" layout="type: dodecahedron; radius: 15" position="0 0 0"></a-entity>
-
-      <!-- Sphere Main Menu Container -->
-      <a-entity id=menu layout="type:dodecahedron; radius: 4" position="0 0 -0.5"></a-entity>
-
       <!-- Individual Main Menu Container (circle)-->
-      <a-entity id=elementMenu layout="type:circle; radius: 0.5" position="0 0 -0.6"></a-entity>
+      <a-entity id="elementMenu" layout="type:circle; radius: 0.5" position="0 0 -0.6"></a-entity>
 
       <!-- Intro Tile -->
       <a-entity>
-        <a-gui-flex-container flex-direction="column" justify-content="center"
+        <a-gui-flex-container id='introTile' visible="true" flex-direction="column" justify-content="center"
           align-items="center" component-padding="0.1" opacity="1"
           width="4" height="0.5" position="0 -1 -4" panel-color="#33ccff">
           <a-animation attribute="scale" from="0 1 1" to="1 1 1" dur="750" delay="500"
@@ -270,6 +281,46 @@
         </a-gui-flex-container>
       </a-entity>
 
+      <a-entity>
+        <a-gui-flex-container id='atomMenuTile' visible="false" flex-direction="column" justify-content="center"
+          align-items="center" component-padding="0.1" opacity="1"
+          width="4" height="2" position="0 -5 -4" rotation="-45 0 0" panel-color="#33ccff">
+          <a-animation attribute="scale" from="0 1 1" to="1 1 1" dur="750" delay="500"
+                         fill="backwards"></a-animation>
+          <a-gui-label
+            width="4" height="3"
+            value="ElementsVR"
+            font-family="monospace"
+            font-size="150px"
+            margin="1 0 0 0"
+            font-color="#ffffff"
+            background-color="#33ccff"
+          >
+          <a-image src="#atom-image" position="0 0.8 0"></a-image>
+          <a-gui-button position="0 -1 0"
+                  width="2.5" height="0.75"
+                  onclick="renderMainMenu"
+                  value="Main Menu"
+                  font-color="#ffffff"
+                  font-family="monospace"
+                  margin="0 0 0 0"
+                  hover-color="#00cc66"
+                 >
+          </a-gui-button>
+          <!-- <a-gui-button position="0 -2 0"
+                  width="2.5" height="0.75"
+                  onclick="Dynamic Method"
+                  value="Dynamic Value"
+                  font-color="#ffffff"
+                  font-family="monospace"
+                  margin="0 0 0 0"
+                  hover-color="#00cc66"
+                 >
+          </a-gui-button> -->
+          </a-gui-label>
+        </a-gui-flex-container>
+      </a-entity>
+
       <!-- Camera -->
       <a-entity position="0 0 0" rotation="0 0 0">
         <a-camera>
@@ -280,13 +331,19 @@
   </body>
   <script type="text/javascript">
     function renderBackground() {
+      let sceneEl = document.querySelector('a-scene');
+      let dodecahedronBackgroundDisplay = document.createElement('a-entity');
+      dodecahedronBackgroundDisplay.id = "background";
+      dodecahedronBackgroundDisplay.setAttribute('layout', {type: 'dodecahedron', radius: 15});
+      dodecahedronBackgroundDisplay.setAttribute('position', {x:0, y:0, z:0});
+      sceneEl.appendChild(dodecahedronBackgroundDisplay);
+
       counter = 0;
       do {
-        let atomEntity = document.createElement('a-entity');
-        atomEntity.setAttribute('gltf-model', "#atom");
-        atomEntity.setAttribute('animation__scale',{property: 'scale', dur: 3000, easing: "easeInSine",
-                                            loop: false, from: {x:0,y:0, z:0}, to: {x:0.3,y:0.3, z:0.3}});
-        document.getElementById('background').appendChild(atomEntity);
+        let backgroundAtom = document.createElement('a-sphere');
+        // console.log(backgroundAtom);
+        backgroundAtom.setAttribute('background-atom','');
+        dodecahedronBackgroundDisplay.appendChild(backgroundAtom);
         counter = counter + 1;
       } while (counter < 20);
     }

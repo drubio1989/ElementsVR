@@ -59,13 +59,16 @@ AFRAME.registerComponent("element-box-info",{
       }
 
       let sceneEl = document.querySelector('a-scene');
+      let atomHolder = document.createElement('a-entity');
+      sceneEl.appendChild(atomHolder);
       let atom = document.createElement('a-sphere');
+      atom.id = 'atom';
       atom.setAttribute('animation__scale',{property: 'scale', dur: 2000, easing: "easeInSine",
                                           loop: false, from: {x:0,y:0, z:0}, to: {x:1,y:1, z:1}});
       atom.setAttribute('charged-particles', {color: color,
                                               atomicNumber: parseInt(numberInfo),
                                               massNumber: Math.floor(parseFloat(weightInfo))});
-      sceneEl.appendChild(atom);
+      atomHolder.appendChild(atom);
     });
   }
 });

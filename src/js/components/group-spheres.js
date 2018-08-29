@@ -2,7 +2,7 @@ AFRAME.registerComponent("group-spheres", {
   schema:{
     color: {default: '#FFF'},
     groupName: {type: 'string'},
-    elements: {type: 'array'}
+    elements: {type: 'array'},
   },
 
   init: function () {
@@ -51,7 +51,7 @@ AFRAME.registerComponent("group-spheres", {
       for (el of listOfElements) {
         let [number, symbol, name, weight] = [el["number"], el["symbol"], el["name"], el["weight"]];
 
-        let elementBox= document.createElement('a-box');
+        let elementBox = document.createElement('a-box');
         elementBox.setAttribute('element-box-info', {
           color: color,
           number: number,

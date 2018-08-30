@@ -2,14 +2,15 @@ AFRAME.registerComponent("background-atom", {
   schema:{
     color: {default: '#4ED4F9'},
     massNumber: {type: 'int', default: 4},
-    opacity: {type: 'number', default: 0.5}
+    opacity: {type: 'float', default: 0.5},
+    radius: {type: 'float', default: 0.05}
   },
 
   _createProtons: function(atomBase, massNumber) {
     do {
       let proton = document.createElement('a-sphere');
       proton.setAttribute('color','red');
-      proton.setAttribute('radius', 0.05);
+      proton.setAttribute('radius', this.data.radius);
       proton.setAttribute('position', {x:(Math.random() * 0.3) - 0.2,
                                        y:(Math.random() * 0.3) - 0.2,
                                        z:(Math.random() * 0.3) - 0.2});
@@ -36,13 +37,6 @@ AFRAME.registerComponent("background-atom", {
   },
 
   init: function() {
-    let sceneEl = document.querySelector('a-scene');
-    let dodecahedronBackgroundDisplay = document.createElement('a-entity');
-    dodecahedronBackgroundDisplay.id = "background";
-    dodecahedronBackgroundDisplay.setAttribute('layout', {type: 'dodecahedron', radius: 15});
-    dodecahedronBackgroundDisplay.setAttribute('position', {x:0, y:0, z:0});
-    sceneEl.appendChild(dodecahedronBackgroundDisplay);
-
     let el = this.el;
     el.setAttribute('color', this.data.color);
     el.setAttribute('opacity', this.data.opacity);
@@ -55,6 +49,6 @@ AFRAME.registerComponent("background-atom", {
     el.setAttribute('animation__scale', {property: 'scale', dur: 3000, easing: "easeInSine",
                                         loop: false, from: {x:0,y:0, z:0}, to: {x:0.8,y:0.8, z:0.8}});
     el.setAttribute('animation__rotate', {property: 'rotation', dur: 2000, easing: "easeInSine",
-                                         loop: true, to: {x:360, y:360, z:360}});
+                                         loop: true, to: {x:360, y:0, z:0}});
   }
 });

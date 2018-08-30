@@ -9,7 +9,7 @@ AFRAME.registerComponent("element-box-info",{
 
   init: function () {
     let [parentMenu, el, color] = [this.el.parentNode, this.el, this.data.color];
-    el.setAttribute('opacity','0.5');
+    el.setAttribute('opacity','1');
     el.setAttribute('width','0.3');
     el.setAttribute('depth','0.3');
     el.setAttribute('height','0.3');
@@ -45,11 +45,11 @@ AFRAME.registerComponent("element-box-info",{
     }
 
     el.addEventListener('mouseenter', function () {
-      el.setAttribute('opacity', 1);
+      el.setAttribute('scale', {x:1.4, y:1.4, z:1.4})
     });
 
     el.addEventListener('mouseleave', function() {
-      el.setAttribute('opacity', 0.5)
+      el.setAttribute('scale', {x:1, y:1, z:1})
     });
 
     el.addEventListener('click', function (event) {

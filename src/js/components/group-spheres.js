@@ -3,6 +3,8 @@ AFRAME.registerComponent("group-spheres", {
     color: {default: '#FFF'},
     groupName: {type: 'string'},
     elements: {type: 'array'},
+    opacity: {type: 'float', default: 0.5},
+    radius: {type: 'float', default: -0.6}
   },
 
   init: function () {
@@ -11,28 +13,11 @@ AFRAME.registerComponent("group-spheres", {
     let [parentMenu, el] = [this.el.parentNode, this.el];
     let groupName = this.data.groupName;
 
-    el.setAttribute('radius', -0.6);
+    el.setAttribute('radius', this.data.radius);
     el.setAttribute('color', color);
-    el.setAttribute('opacity', 0.5);
+    el.setAttribute('opacity', this.data.opacity);
     el.setAttribute('animation__scale',{property: 'scale', dur: 2000, easing: "easeInSine",
                                         loop: false, from: {x:0,y:0, z:0}, to: {x:1,y:1, z:1}});
-
-    let ringCount = 3;
-    let rotation = -45;
-
-    // Creates the orbital rings around the menu atom
-    do {
-      let orbitalRing = document.createElement('a-ring');
-      orbitalRing.setAttribute('color', '#a3a8ac');
-      orbitalRing.setAttribute('scale', {x:0.5, y: 0.5, z:0.5});
-      orbitalRing.setAttribute('radius-inner', 0.5);
-      orbitalRing.setAttribute('radius-outer', 0.55);
-      orbitalRing.setAttribute('rotation', {x:rotation, y: rotation, z:0});
-      el.appendChild(orbitalRing);
-      rotation = rotation + 45;
-      ringCount = ringCount - 1;
-    } while (ringCount > 0);
-
 
     el.addEventListener('mouseenter', function () {
       el.setAttribute('opacity', 1);
@@ -43,6 +28,13 @@ AFRAME.registerComponent("group-spheres", {
     })
 
     el.addEventListener('click', function () {
+      let sceneEl = document.querySelector('a-scene');
+      let layout = document.createElement('a-entity');
+      layout.id = 'elementMenu';
+      layout.setAttribute('layout', {type: 'circle', radius: 1});
+      layout.setAttribute('position', {x:0, y:0, z:-0.6});
+      sceneEl.appendChild(layout);
+
       // Remove all elements
       while (parentMenu.firstChild) {
         parentMenu.removeChild(parentMenu.firstChild);
@@ -60,7 +52,16 @@ AFRAME.registerComponent("group-spheres", {
           weight: weight
         });
 
+        //Depending on the group name, I'll have to change the appearance
+        // Todo: change the layout of the post transition metals
         document.getElementById('elementMenu').appendChild(elementBox);
+
+        let infoPanel = document.getElementById('infoPanel');
+        infoPanel.setAttribute('visible', true);
+        infoPanel.setAttribute('animation__scale', {property: 'scale', dur: 1000, fill: "backwards",
+                                             from: {x:0,y:1, z:1}, to: {x:1,y:1, z:1}});
+
+        let mainMenuButton = document.getElementById('mainMenuButton');
       }
     });
   }

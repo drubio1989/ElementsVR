@@ -3,19 +3,19 @@ AFRAME.registerComponent("group-spheres", {
     color: {default: '#FFF'},
     groupName: {type: 'string'},
     elements: {type: 'array'},
-    opacity: {type: 'float', default: 0.5},
-    radius: {type: 'float', default: -0.6}
   },
 
   init: function () {
+    let mainScene = this.el.parentNode;
+    let el = this.el;
     let listOfElements = this.data.elements;
     let color = this.data.color;
-    let [parentMenu, el] = [this.el.parentNode, this.el];
     let groupName = this.data.groupName;
 
-    el.setAttribute('radius', this.data.radius);
-    el.setAttribute('color', color);
-    el.setAttribute('opacity', this.data.opacity);
+    // Style the sphere
+    el.setAttribute('radius', -0.6);
+    el.setAttribute('color', this.data.color);
+    el.setAttribute('opacity', 0.5);
     el.setAttribute('animation__scale',{property: 'scale', dur: 2000, easing: "easeInSine",
                                         loop: false, from: {x:0,y:0, z:0}, to: {x:1,y:1, z:1}});
 
@@ -25,23 +25,30 @@ AFRAME.registerComponent("group-spheres", {
 
     el.addEventListener('mouseleave', function() {
       el.setAttribute('opacity', 0.5);
-    })
+    });
 
+    //Click functionality
     el.addEventListener('click', function () {
       let sceneEl = document.querySelector('a-scene');
       let layout = document.createElement('a-entity');
-      layout.id = 'elementMenu';
+      layout.id = 'boxMenu';
+
+      //This sets the circle variation of the boxes
       layout.setAttribute('layout', {type: 'circle', radius: 1});
       layout.setAttribute('position', {x:0, y:0, z:-0.6});
       sceneEl.appendChild(layout);
 
-      // Remove all elements
-      while (parentMenu.firstChild) {
-        parentMenu.removeChild(parentMenu.firstChild);
+      // Remove all sphere elements
+      while (mainScene.firstChild) {
+        mainScene.removeChild(mainScene.firstChild);
       }
+
       //Create the element boxes
-      for (el of listOfElements) {
-        let [number, symbol, name, weight] = [el["number"], el["symbol"], el["name"], el["weight"]];
+      for (property of listOfElements) {
+        let number = property["number"];
+        let symbol = property["symbol"];
+        let name = property["name"];
+        let weight = property["weight"];
 
         let elementBox = document.createElement('a-box');
         elementBox.setAttribute('element-box-info', {
@@ -49,19 +56,13 @@ AFRAME.registerComponent("group-spheres", {
           number: number,
           symbol: symbol,
           name: name,
-          weight: weight
+          weight: weight,
+          groupName: groupName,
         });
 
-        //Depending on the group name, I'll have to change the appearance
+        // Depending on the group name, I'll have to change the appearance
         // Todo: change the layout of the post transition metals
-        document.getElementById('elementMenu').appendChild(elementBox);
-
-        let infoPanel = document.getElementById('infoPanel');
-        infoPanel.setAttribute('visible', true);
-        infoPanel.setAttribute('animation__scale', {property: 'scale', dur: 1000, fill: "backwards",
-                                             from: {x:0,y:1, z:1}, to: {x:1,y:1, z:1}});
-
-        let mainMenuButton = document.getElementById('mainMenuButton');
+        document.getElementById('boxMenu').appendChild(elementBox);
       }
     });
   }

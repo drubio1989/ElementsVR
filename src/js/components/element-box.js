@@ -4,11 +4,23 @@ AFRAME.registerComponent("element-box-info",{
     number: {type: 'string'},
     symbol: {type: 'string'},
     name: {type: 'string'},
-    weight: {type: 'string'}
+    weight: {type: 'string'},
+    groupName: {type: 'string'},
   },
 
   init: function () {
-    let [parentMenu, el, color] = [this.el.parentNode, this.el, this.data.color];
+    // Set up the menuGui
+    let menuPanel = document.getElementById('menuPanel');
+
+    menuPanel.setAttribute('position', {x:0, y:-1, z:-5});
+    menuPanel.setAttribute('visible', true);
+    menuPanel.setAttribute('animation__scale', {property: 'scale', dur: 1000, fill: "backwards",
+                                                from: {x:0,y:1, z:1}, to: {x:1,y:1, z:1}});
+
+    //Style the box
+    let el = this.el;
+    let color = this.data.color;
+
     el.setAttribute('opacity','1');
     el.setAttribute('width','0.3');
     el.setAttribute('depth','0.3');
@@ -17,10 +29,11 @@ AFRAME.registerComponent("element-box-info",{
     el.setAttribute('animation__scale',{property: 'scale', dur: 2000, easing: "easeInSine",
                                         loop: false, from: {x:0,y:0, z:0}, to: {x:1,y:1, z:1}});
 
-    let [numberInfo, weightInfo, nameInfo, symbolInfo] = [this.data.number,
-                                                          this.data.weight,
-                                                          this.data.name,
-                                                          this.data.symbol];
+    // Style the text on the box
+    let numberInfo = this.data.number;
+    let weightInfo = this.data.weight;
+    let nameInfo = this.data.name;
+    let symbolInfo = this.data.symbol;
 
     for (text of [numberInfo, weightInfo, nameInfo, symbolInfo]) {
       let textEl = document.createElement('a-text');
@@ -52,23 +65,44 @@ AFRAME.registerComponent("element-box-info",{
       el.setAttribute('scale', {x:1, y:1, z:1})
     });
 
+    let boxMenu = this.el.parentNode;
+    let groupName = this.data.groupName;
+
     el.addEventListener('click', function (event) {
       // Remove all elements
-      while (parentMenu.firstChild) {
-        parentMenu.removeChild(parentMenu.firstChild);
+      while (boxMenu.firstChild) {
+      boxMenu.removeChild(boxMenu.firstChild);
+      }
+
+      //Remove the background
+      let backgroundContainer = document.querySelectorAll('.backgroundAtom')[0].parentNode;
+      while (backgroundContainer.firstChild) {
+        backgroundContainer.removeChild(backgroundContainer.firstChild);
       }
 
       let sceneEl = document.querySelector('a-scene');
-      let atomHolder = document.createElement('a-entity');
-      sceneEl.appendChild(atomHolder);
+      let atomContainer = document.createElement('a-entity');
+      sceneEl.appendChild(atomContainer);
       let atom = document.createElement('a-sphere');
+      atom.className = groupName;
       atom.id = 'atom';
+      // atom.className = groupName;
       atom.setAttribute('animation__scale',{property: 'scale', dur: 2000, easing: "easeInSine",
                                           loop: false, from: {x:0,y:0, z:0}, to: {x:1,y:1, z:1}});
       atom.setAttribute('charged-particles', {color: color,
                                               atomicNumber: parseInt(numberInfo),
-                                              massNumber: Math.floor(parseFloat(weightInfo))});
-      atomHolder.appendChild(atom);
+                                              massNumber: Math.floor(parseFloat(weightInfo)),
+                                              elementName: nameInfo});
+      atomContainer.appendChild(atom);
+
+      // Animate the gui Menu to proper position
+      let guiMenu = document.getElementById('menuPanel');
+      guiMenu.setAttribute('alongpath', {curve: '#menuTrack'});
+      guiMenu.setAttribute('animation__rotate', {property: 'rotation', dur: 1000, easing: "easeInSine", loop: false, to: {x:0, y:-45, z:0}});
+
+      //Show the "Back Button"
+      let backMenuButton = document.getElementById('backMenuButton');
+      backMenuButton.setAttribute('visible', true);
     });
   }
 });

@@ -11,12 +11,12 @@
     <script src="https://rawgit.com/protyze/aframe-alongpath-component/master/dist/aframe-alongpath-component.min.js"></script>
     <script src="https://rawgit.com/rdub80/aframe-gui/master/dist/aframe-gui.min.js"></script>
     <script src="https://unpkg.com/aframe-animation-component@^4.1.2/dist/aframe-animation-component.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="src/js/components/group-spheres.js"></script>
     <script src="src/js/components/info-text.js"></script>
     <script src="src/js/components/element-box.js"></script>
     <script src="src/js/components/atom.js"></script>
     <script src="src/js/components/background-atom.js"></script>
-    <script src="src/js/components/gui-menu.js"></script>
     <script type="text/javascript">
       const elementData = {
         "group1": {"color": "red",
@@ -194,7 +194,6 @@
                   }
       };
 
-      //I might have to do a hash argument for this
       function layoutDisplay(typeOfDisplay, id, position, radius) {
         let backgroundDisplay = document.createElement('a-entity');
         backgroundDisplay.id = id;
@@ -203,32 +202,101 @@
         return backgroundDisplay;
       }
 
-      function renderMainMenu() {
+      function destroyEntities(parentEntity) {
+        while (parentEntity.firstChild) {
+          parentEntity.removeChild(parentEntity.firstChild);
+        }
+      }
+
+      function clearAtomScene() {
+        document.getElementById('atom').parentNode.removeChild(atom.parentNode.firstChild);
+        let curveContainer = document.getElementById('shell1').parentNode;
+        let electronContainer = document.querySelectorAll('.electron')[0].parentNode;
+        destroyEntities(curveContainer);
+        destroyEntities(electronContainer);
+      }
+
+      function clearElementBoxScene() {
+        let boxParentEntity = document.querySelector('a-box').parentNode;
+        destroyEntities(boxParentEntity);
+      }
+
+      function returnToGroupSelection() {
+        let periodicGroup = document.querySelector('a-sphere').className;
+
+        // Clear the atom Scen
+        clearAtomScene();
+
+        // Reset the menu
+        let guiMenu = document.getElementById('menuPanel');
+        guiMenu.setAttribute('alongpath', {curve: '#menuTrack2'});
+        guiMenu.setAttribute('animation__rotate', {property: 'rotation', dur: 1000, easing: "easeInSine", loop: false, to: {x:0, y:0, z:0}});
+
+        let backButton = document.getElementById('backMenuButton');
+        backButton.setAttribute('visible',false);
+
         let sceneEl = document.querySelector('a-scene');
-        sceneEl.appendChild(layoutDisplay("dodecahedron", "mainScene", {x:0, y:0, z:-0.5}, 4));
+        sceneEl.appendChild(layoutDisplay("circle", "boxMenu", {x:0, y:0, z:-0.6}, 1));
+        renderBackground(sceneEl);
 
-        // Destroy element boxes if they are present
-        if (document.querySelector('a-box') !== null) {
-          let boxParentEntity = document.querySelector('a-box').parentNode;
+        for (let property in elementData) {
+          if (elementData[property]["name"] === periodicGroup) {
 
-          while (boxParentEntity.firstChild) {
-            boxParentEntity.removeChild(boxParentEntity.firstChild);
+            let color = elementData[property]["color"];
+            let elementList = elementData[property]["elements"];
+
+              for (element in elementList) {
+                let elementBox = document.createElement('a-box');
+
+                elementBox.setAttribute('element-box-info', {
+                  color: color,
+                  number: elementList[element]["number"],
+                  symbol: elementList[element]["symbol"],
+                  name: elementList[element]["name"],
+                  weight: elementList[element]["weight"],
+                  groupName: periodicGroup,
+                });
+
+                document.getElementById('boxMenu').appendChild(elementBox);
+              }
           }
         }
+      }
+
+      function renderMainMenu() {
+        //Clear the scene of the atom
+        if (document.getElementById('atom') !== null) {
+          clearAtomScene();
+        }
+        // Destroy element boxes if they are present
+        if (document.querySelector('a-box') !== null) {
+          clearElementBoxScene();
+        }
+
+        let sceneEl = document.querySelector('a-scene');
+        sceneEl.appendChild(layoutDisplay("dodecahedron", "mainScene", {x:0, y:0, z:-0.5}, 4));
 
         let menuContainer = document.getElementById('mainScene');
         for (let property in elementData) {
           let sphere = document.createElement('a-sphere');
           sphere.setAttribute('background-atom','');
           sphere.setAttribute('group-spheres',{color: elementData[property]["color"],
-                                                        groupName: elementData[property]["name"],
-                                                        elements: elementData[property]["elements"]});
+                                               groupName: elementData[property]["name"],
+                                               elements: elementData[property]["elements"]});
           menuContainer.appendChild(sphere);
         }
 
-        let menuGui = document.querySelector('a-gui-flex-container');
+        let menuGui = document.getElementById('menuPanel');
         menuGui.setAttribute('visible', false);
 
+        //Hide the 'Back button'
+        let backMenuButton = document.getElementById('backMenuButton');
+        backMenuButton.setAttribute('visible', false);
+
+        //Render the backGround if it is not present
+        if (document.getElementById('background').children[0] === undefined) {
+          renderBackground(sceneEl);
+        }
       }
 
       function renderBackground(sceneEl) {
@@ -237,6 +305,7 @@
         counter = 0;
         do {
           let backgroundAtom = document.createElement('a-sphere');
+          backgroundAtom.className = 'backgroundAtom';
           backgroundAtom.setAttribute('background-atom','');
           document.getElementById('background').appendChild(backgroundAtom);
           counter = counter + 1;
@@ -250,11 +319,30 @@
          <img id="atom-image" src="https://ucarecdn.com/9cf7730a-5b3f-4335-8aef-1d25472c45f8/">
       </a-assets>
 
+      <a-curve id="menuTrack">
+        <a-curve-point position="0 -1 -5"></a-curve-point>
+        <a-curve-point position="2.5 0 -5"></a-curve-point>
+        <a-curve-point position="5 -1 -5"></a-curve-point>
+      </a-curve>
+
+      <a-curve id="menuTrack2">
+        <a-curve-point position="5 -1 -5"></a-curve-point>
+        <a-curve-point position="2.5 0 -5"></a-curve-point>
+        <a-curve-point position="0 -1 -5"></a-curve-point>
+      </a-curve>
+
+      <!--Google Info Panel-->
+      <a-entity>
+        <a-plane id="googlePanel" visible="false" height="5" width="5" position="-5 0 -3" rotation="0 45 0" color="#EF2D5E">
+          <a-animation attribute="scale" from="0 1 1" to="1 1 1" dur="750" delay="500" fill="both"></a-animation>
+        </a-plane>
+      </a-entity>
+
       <!-- Intro Tile -->
       <a-entity>
-        <a-gui-flex-container id='infoPanel' visible="true" flex-direction="column" justify-content="center"
+        <a-gui-flex-container id='menuPanel' visible="true" flex-direction="column" justify-content="center"
           align-items="center" component-padding="0.1" opacity="1"
-          width="4" height="0.5" position="0 -1 -5" panel-color="#33ccff">
+          width="4" height="2" position="0 -1 -5" panel-color="#33ccff">
           <a-animation attribute="scale" from="0 1 1" to="1 1 1" dur="750" delay="500"
                          fill="backwards"></a-animation>
           <a-gui-label
@@ -277,49 +365,20 @@
                     hover-color="#00cc66"
                    >
             </a-gui-button>
+            <a-gui-button id="backMenuButton" position="0 -2 0"
+                    visible="false"
+                   	width="2.5" height="0.75"
+                   	onclick="returnToGroupSelection"
+                   	value="Back"
+                    font-color="#ffffff"
+                   	font-family="monospace"
+                   	margin="0 0 0 0"
+                    hover-color="#00cc66"
+                   >
+            </a-gui-button>
           </a-gui-label>
         </a-gui-flex-container>
       </a-entity>
-
-      <!-- <a-entity>
-        <a-gui-flex-container id='atomMenuTile' visible="false" flex-direction="column" justify-content="center"
-          align-items="center" component-padding="0.1" opacity="1"
-          width="4" height="2" position="0 -5 -4" rotation="-45 0 0" panel-color="#33ccff">
-          <a-animation attribute="scale" from="0 1 1" to="1 1 1" dur="750" delay="500"
-                         fill="backwards"></a-animation>
-          <a-gui-label
-            width="4" height="3"
-            value="ElementsVR"
-            font-family="monospace"
-            font-size="150px"
-            margin="1 0 0 0"
-            font-color="#ffffff"
-            background-color="#33ccff"
-          >
-          <a-image src="#atom-image" position="0 0.8 0"></a-image>
-          <a-gui-button position="0 -1 0"
-                  width="2.5" height="0.75"
-                  onclick="renderMainMenu"
-                  value="Main Menu"
-                  font-color="#ffffff"
-                  font-family="monospace"
-                  margin="0 0 0 0"
-                  hover-color="#00cc66"
-                 >
-          </a-gui-button> -->
-          <!-- <a-gui-button position="0 -2 0"
-                  width="2.5" height="0.75"
-                  onclick="Dynamic Method"
-                  value="Dynamic Value"
-                  font-color="#ffffff"
-                  font-family="monospace"
-                  margin="0 0 0 0"
-                  hover-color="#00cc66"
-                 >
-          </a-gui-button> -->
-          <!-- </a-gui-label>
-        </a-gui-flex-container>
-      </a-entity> -->
 
       <!-- Camera -->
       <a-entity position="0 0 0" rotation="0 0 0">
@@ -332,5 +391,4 @@
   <script type="text/javascript">
     renderBackground(document.querySelector('a-scene'));
   </script>
-  <!-- <script src="src/js/wikipedia.js"></script> -->
 </html>

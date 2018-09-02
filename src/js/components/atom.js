@@ -2,7 +2,47 @@ AFRAME.registerComponent('charged-particles', {
   schema: {
     color: {default: '#FFF'},
     atomicNumber: {type: 'int'},
-    massNumber: {type: 'int'}
+    massNumber: {type: 'int'},
+    elementName: {type: 'string'}
+  },
+
+  googleInfoPanel: function() {
+    let googlePanel = document.getElementById('googlePanel');
+    googlePanel.setAttribute('visible',true);
+
+    let elementNameText = document.createElement('a-text');
+    let elementDescriptionText = document.createElement('a-text');
+    let elementArticleText = document.createElement('a-text');
+
+    let service_url = 'https://kgsearch.googleapis.com/v1/entities:search';
+    let params = {
+      'query': this.data.elementName,
+      'limit': 1,
+      'key' : 'AIzaSyCwlYC7MqfZshbxf1T8ttnZ9D2Wa2Wgeok',
+    };
+
+    $.getJSON(service_url + '?callback=?', params, function(response) {
+      $.each(response.itemListElement, function(i, element) {
+
+        elementNameText.setAttribute('value',element['result']['name']);
+        elementNameText.setAttribute('align', 'center');
+        elementNameText.setAttribute('position', {x:0, y:2, z:0});
+        googlePanel.appendChild(elementNameText);
+
+        elementDescriptionText.setAttribute('value',element['result']['description']);
+        elementDescriptionText.setAttribute('align', 'center');
+        elementDescriptionText.setAttribute('position', {x:0, y:1.5, z:0});
+        googlePanel.appendChild(elementDescriptionText);
+
+        elementArticleText.setAttribute('value', element['result']['detailedDescription']['articleBody']);
+        elementArticleText.setAttribute('align', 'center');
+        elementArticleText.setAttribute('wrapCount', 60);
+        googlePanel.appendChild(elementArticleText);
+      });
+    });
+    // elementNameText.setAttribute('font', 'monospace');
+    // elementDescriptionText.setAttribute('font', 'monospace');
+    // elementArticleText.setAttribute('font', 'monospace');
   },
 
   _electronConfiguration: function(atomicNumber, subShells) {
@@ -299,11 +339,6 @@ AFRAME.registerComponent('charged-particles', {
     this.electrons(atomicNumber);
     this.neutrons(el, massNumber, atomicNumber);
 
-    let atomMenu = document.getElementById('atomMenuTile');
-    console.log(atomMenuTile);
-    atomMenu.setAttribute('animation__visible',{property: 'visible', dur: 2000, easing: "easeInSine",
-                                                loop: false, to: "true", repeat:"indefinite"});
-    atomMenu.setAttribute('animation__scale',{property: 'scale', dur: 750, easing: "easeInSine", fill: "backwards",
-                                              loop: false, from: {x:0,y:1, z:1}, to: {x:1,y:1, z:1}});
+    this.googleInfoPanel();
   }
 });

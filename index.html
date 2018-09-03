@@ -207,6 +207,12 @@
         }
       }
 
+      function clearGoogleInfo() {
+        let googlePanel = document.getElementById('googlePanel');
+        googlePanel.setAttribute('visible',false);
+        destroyEntities(googlePanel);
+      }
+
       function clearAtomScene() {
         document.getElementById('atom').parentNode.removeChild(atom.parentNode.firstChild);
         let curveContainer = document.getElementById('shell1').parentNode;
@@ -235,9 +241,8 @@
         let backButton = document.getElementById('backMenuButton');
         backButton.setAttribute('visible',false);
 
-        //Hide the googlePanel
-        let googlePanel = document.getElementById('googlePanel');
-        googlePanel.setAttribute('visible',false);
+        //Hide the googlePanel and clear the information
+        clearGoogleInfo();
 
         let sceneEl = document.querySelector('a-scene');
         //if the mainScene Entity doesn't exist, create it.
@@ -286,6 +291,8 @@
         if (document.getElementById('mainScene') === null) {
           sceneEl.appendChild(layoutDisplay("dodecahedron", "mainScene", {x:0, y:0, z:-0.5}, 4));
         }
+
+        clearGoogleInfo();
 
         let menuContainer = document.getElementById('mainScene');
         for (let property in elementData) {

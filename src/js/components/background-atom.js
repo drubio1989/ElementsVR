@@ -6,10 +6,10 @@ AFRAME.registerComponent("background-atom", {
     radius: {type: 'float', default: 0.05}
   },
 
-  _createProtons: function(atomBase, massNumber) {
+  _createInnerAtoms: function(atomBase, massNumber, color) {
     do {
       let proton = document.createElement('a-sphere');
-      proton.setAttribute('color','red');
+      proton.setAttribute('color', color);
       proton.setAttribute('radius', this.data.radius);
       proton.setAttribute('position', {x:(Math.random() * 0.3) - 0.2,
                                        y:(Math.random() * 0.3) - 0.2,
@@ -27,8 +27,8 @@ AFRAME.registerComponent("background-atom", {
       let orbitalRing = document.createElement('a-ring');
       orbitalRing.setAttribute('color', '#a3a8ac');
       orbitalRing.setAttribute('scale', {x:1, y: 1, z:1});
-      orbitalRing.setAttribute('radius-inner', 0.7);
-      orbitalRing.setAttribute('radius-outer', 0.75);
+      orbitalRing.setAttribute('radius-inner', 0.6);
+      orbitalRing.setAttribute('radius-outer', 0.65);
       orbitalRing.setAttribute('rotation', {x:rotation, y:rotation, z:rotation});
       atomBase.appendChild(orbitalRing);
       rotation = rotation + 45;
@@ -43,10 +43,11 @@ AFRAME.registerComponent("background-atom", {
 
     //Create the orbital rings and protons for display
     this._createRings(el);
-    this._createProtons(el, this.data.massNumber);
+    this._createInnerAtoms(el, this.data.massNumber, 'red');
+    this._createInnerAtoms(el, 4, '#20dce1')
 
     //Set the animation
-    el.setAttribute('animation__scale', {property: 'scale', dur: 3000, easing: "easeInSine",
+    el.setAttribute('animation__scale', {property: 'scale', dur: 1500, easing: "easeInSine",
                                         loop: false, from: {x:0,y:0, z:0}, to: {x:0.8,y:0.8, z:0.8}});
     el.setAttribute('animation__rotate', {property: 'rotation', dur: 2000, easing: "easeInSine",
                                          loop: true, to: {x:360, y:0, z:0}});

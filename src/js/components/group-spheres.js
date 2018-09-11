@@ -13,10 +13,10 @@ AFRAME.registerComponent("group-spheres", {
     let groupName = this.data.groupName;
 
     // Style the sphere
-    el.setAttribute('radius', -0.6);
+    el.setAttribute('radius', 0.5);
     el.setAttribute('color', this.data.color);
     el.setAttribute('opacity', 0.5);
-    el.setAttribute('animation__scale',{property: 'scale', dur: 2000, easing: "easeInSine",
+    el.setAttribute('animation__scale',{property: 'scale', dur: 1000, easing: "easeInSine",
                                         loop: false, from: {x:0,y:0, z:0}, to: {x:1,y:1, z:1}});
 
     el.addEventListener('mouseenter', function () {
@@ -27,23 +27,7 @@ AFRAME.registerComponent("group-spheres", {
       el.setAttribute('opacity', 0.5);
     });
 
-    //Click functionality
-    el.addEventListener('click', function () {
-      let sceneEl = document.querySelector('a-scene');
-      let layout = document.createElement('a-entity');
-      layout.id = 'boxMenu';
-
-      //This sets the circle variation of the boxes
-      layout.setAttribute('layout', {type: 'circle', radius: 1});
-      layout.setAttribute('position', {x:0, y:0, z:-0.6});
-      sceneEl.appendChild(layout);
-
-      // Remove all sphere elements
-      while (mainScene.firstChild) {
-        mainScene.removeChild(mainScene.firstChild);
-      }
-
-      //Create the element boxes
+    function createBoxes(listOfElements, menuEntity) {
       for (property of listOfElements) {
         let number = property["number"];
         let symbol = property["symbol"];
@@ -60,10 +44,37 @@ AFRAME.registerComponent("group-spheres", {
           groupName: groupName,
         });
 
-        // Depending on the group name, I'll have to change the appearance
-        // Todo: change the layout of the post transition metals
-        document.getElementById('boxMenu').appendChild(elementBox);
+        document.getElementById(menuEntity).appendChild(elementBox);
       }
+    }
+
+    function resetPanel() {
+      // We need to reset the position of the Menu Button
+      let menuPanel = document.getElementById('menuPanel');
+      menuPanel.setAttribute('position', {x:0, y:-1, z:-5});
+      menuPanel.setAttribute('rotation', {x:0, y:0, z:0});
+    }
+
+    //Click functionality
+    el.addEventListener('click', function() {
+      let sceneEl = document.querySelector('a-scene');
+
+      // Remove all sphere elements
+      while (mainScene.firstChild) {
+        mainScene.removeChild(mainScene.firstChild);
+      }
+
+      if (groupName === "Transition Metals") {
+        let firstHalf = listOfElements.slice(0, listOfElements.length / 2);
+        let secondHalf = listOfElements.slice(listOfElements.length / 2, 34);
+
+        createBoxes(firstHalf, 'menuOne');
+        createBoxes(secondHalf, 'menuTwo');
+      } else {
+        createBoxes(listOfElements, 'menuOne');
+      }
+
+      resetPanel();
     });
   }
 });

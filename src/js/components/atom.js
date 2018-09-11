@@ -9,7 +9,6 @@ AFRAME.registerComponent('charged-particles', {
   googleInfoPanel: function() {
     let googlePanel = document.getElementById('googlePanel');
 
-
     let elementNameText = document.createElement('a-text');
     let elementDescriptionText = document.createElement('a-text');
     let elementArticleText = document.createElement('a-text');
@@ -47,51 +46,48 @@ AFRAME.registerComponent('charged-particles', {
   },
 
 
-  
-  // _setShellPointConfigurations: function(mainShellNumber, numberOfCurvePoints = 1) {
-  //   let coordinates = 0;
-  //
-  //   if (mainShellNumber === 7)
-  //     coordinate = 14;
-  //   else if (mainShellNumber === 6)
-  //     coordinate = 12;
-  //   else if (mainShellNumber === 5)
-  //     coordinate = 10;
-  //   else if (mainShellNumber === 4)
-  //     coordinate = 8;
-  //   else if (mainShellNumber === 3)
-  //     coordinate = 6;
-  //   else if (mainShellNumber === 2)
-  //     coordinate = 4;
-  //   else if (mainShellNumber === 1)
-  //     coordinate = 2;
-  //
-  //   do {
-  //     do {
-  //       let curvePoint = document.getElementById('shell' + mainShellNumber + 'point' + numberOfCurvePoints);
-  //       console.log('curveCoordinate ' + curvePoint);
-  //       console.log('number of curve points ' + numberOfCurvePoints);
-  //       if (numberOfCurvePoints === 1)
-  //         curvePoint.setAttribute('position', {x:0, y:coordinate, z:-3});
-  //       else if (numberOfCurvePoints === 2)
-  //         curvePoint.setAttribute('position', {x:coordinate, y:0, z:-3});
-  //       else if (numberOfCurvePoints === 3)
-  //         curvePoint.setAttribute('position', {x:0, y:(-coordinate), z:-3});
-  //       else if (numberOfCurvePoints === 4)
-  //         curvePoint.setAttribute('position',  {x:(-coordinate), y:0, z:-3});
-  //
-  //       numberOfCurvePoints = numberOfCurvePoints + 1;
-  //     } while (numberOfCurvePoints < 4);
-  //
-  //     console.log('mainShellNumber ' + mainShellNumber)
-  //     mainShellNumber = mainShellNumber - 1;
-  //   } while (mainShellNumber > 0);
-  // },
 
-  //   // console.log('mainShellNumber ' + mainShellNumber)
+  _setShellPointConfigurations: function(mainShellNumber, numberOfCurvePoints = 1) {
+    let coordinate = 0;
 
-  //   // console.log('curvePoint' + numberOfCurvePoints);
-  //   // console.log('coordinate: ' + coordinate);
+    if (mainShellNumber === 7)
+      coordinate = 14;
+    else if (mainShellNumber === 6)
+      coordinate = 12;
+    else if (mainShellNumber === 5)
+      coordinate = 10;
+    else if (mainShellNumber === 4)
+      coordinate = 8;
+    else if (mainShellNumber === 3)
+      coordinate = 6;
+    else if (mainShellNumber === 2)
+      coordinate = 4;
+    else if (mainShellNumber === 1)
+      coordinate = 2;
+
+    do {
+      console.log('hello');
+      numberOfCurvePoints = 1;
+      do {
+        console.log(numberOfCurvePoints);
+        let curvePoint = document.getElementById('shell' + mainShellNumber + 'point' + numberOfCurvePoints);
+        if (numberOfCurvePoints === 1)
+          curvePoint.setAttribute('position', {x:0, y:coordinate, z:-3});
+        else if (numberOfCurvePoints === 2)
+          curvePoint.setAttribute('position', {x:coordinate, y:0, z:-3});
+        else if (numberOfCurvePoints === 3)
+          curvePoint.setAttribute('position', {x:0, y:(-coordinate), z:-3});
+        else if (numberOfCurvePoints === 4)
+          curvePoint.setAttribute('position',  {x:(-coordinate), y:0, z:-3});
+
+        numberOfCurvePoints = numberOfCurvePoints + 1;
+
+      } while (numberOfCurvePoints < 5);
+
+      mainShellNumber = mainShellNumber - 1;
+      coordinate = coordinate - 2;
+    } while (mainShellNumber > 0);
+  },
 
   _electronConfiguration: function(atomicNumber, subShells) {
     let sceneEl = document.querySelector('a-scene');
@@ -171,8 +167,8 @@ AFRAME.registerComponent('charged-particles', {
       atom.setAttribute('color', color);
       atom.setAttribute('radius', 0.05);
       atom.setAttribute('position', {x:(Math.random() * 0.4) - 0.3,
-                                       y:(Math.random() * 0.4) - 0.3,
-                                       z:(Math.random() * 0.4) - 0.3});
+                                     y:(Math.random() * 0.4) - 0.3,
+                                     z:(Math.random() * 0.4) - 0.3});
       nucleus.appendChild(atom);
       numberOfIterations = numberOfIterations - 1;
     } while (numberOfIterations > 0)
@@ -192,13 +188,13 @@ AFRAME.registerComponent('charged-particles', {
       case atomicNumber <= 2:
         this._createShell(1);
         this._electronConfiguration(atomicNumber, '1s');
-        // this._setShellPointConfigurations(1);
+        this._setShellPointConfigurations(1);
         break;
 
       case atomicNumber <= 10:
         this._createShell(2);
         this._electronConfiguration(atomicNumber, '1s2s2p');
-        // this._setShellPointConfigurations(2);
+        this._setShellPointConfigurations(2);
         break;
 
       case atomicNumber <= 18:
@@ -210,25 +206,25 @@ AFRAME.registerComponent('charged-particles', {
       case atomicNumber <= 36:
         this._createShell(4);
         this._electronConfiguration(atomicNumber, '1s2s2p3s3p4s3d4p');
-        // this._setShellPointConfigurations(4);
+        this._setShellPointConfigurations(4);
         break;
 
       case atomicNumber <= 54:
         this._createShell(5);
         this._electronConfiguration(atomicNumber, '1s2s2p3s3p4s3d4p5s4d5p');
-        // this._setShellPointConfigurations(5);
+        this._setShellPointConfigurations(5);
         break;
 
       case atomicNumber <= 80:
         this._createShell(6);
         this._electronConfiguration(atomicNumber, '1s2s2p3s3p4s3d4p5s4d5p6s4f5d6p');
-        // this._setShellPointConfigurations(6);
+        this._setShellPointConfigurations(6);
         break;
 
       case atomicNumber <= 118:
         this._createShell(7);
         this._electronConfiguration(atomicNumber, '1s2s2p3s3p4s3d4p5s4d5p6s4f5d6p7s5f6d7p');
-        // this._setShellPointConfigurations(7);
+        this._setShellPointConfigurations(7);
         break;
 
       default:

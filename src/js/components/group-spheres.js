@@ -51,7 +51,7 @@ AFRAME.registerComponent("group-spheres", {
     function resetPanel() {
       // We need to reset the position of the Menu Button
       let menuPanel = document.getElementById('menuPanel');
-      menuPanel.setAttribute('position', {x:0, y:-1, z:-5});
+      menuPanel.setAttribute('position', {x:0, y:-1, z:-7});
       menuPanel.setAttribute('rotation', {x:0, y:0, z:0});
     }
 

@@ -193,6 +193,91 @@
                   }
       };
 
+      function layout(elementData, periodicGroup, menuEntity) {
+        for (let property in elementData) {
+          if (elementData[property]["name"] === periodicGroupName) {
+
+            let color = elementData[property]["color"];
+            let elementList = elementData[property]["elements"];
+
+            for (element in elementList) {
+              let elementBox = document.createElement('a-box');
+
+              elementBox.setAttribute('element-box-info', {
+                color: color,
+                number: elementList[element]["number"],
+                symbol: elementList[element]["symbol"],
+                name: elementList[element]["name"],
+                weight: elementList[element]["weight"],
+                groupName: periodicGroupName,
+              });
+
+              document.getElementById(menuEntity).appendChild(elementBox);
+            }
+          }
+        }
+      }
+
+      function createBoxes(periodicGroupName) {
+        if (periodicGroupName === "Transition Metals") {
+          let transitionMetals = elementData["group5"]
+          let color = transitionMetals["color"];
+          let elements = transitionMetals["elements"];
+
+          let firstHalf = elements.slice(0, elements.length / 2);
+          let secondHalf = elements.slice(elements.length / 2, 34);
+
+          for (let element in firstHalf) {
+            let elementBox = document.createElement('a-box');
+
+            elementBox.setAttribute('element-box-info', {
+              color: color,
+              number: firstHalf[element]["number"],
+              symbol: firstHalf[element]["symbol"],
+              name: firstHalf[element]["name"],
+              weight: firstHalf[element]["weight"],
+              groupName: periodicGroupName,
+            });
+
+            document.getElementById('menuOne').appendChild(elementBox);
+          }
+
+          for (element in secondHalf) {
+            let elementBox = document.createElement('a-box');
+
+            elementBox.setAttribute('element-box-info', {
+              color: color,
+              number: secondHalf[element]["number"],
+              symbol: secondHalf[element]["symbol"],
+              name: secondHalf[element]["name"],
+              weight: secondHalf[element]["weight"],
+              groupName: periodicGroupName,
+            });
+
+            document.getElementById('menuTwo').appendChild(elementBox);
+          }
+        } else {
+          for (let property in elementData) {
+            if (elementData[property]["name"] === periodicGroupName) {
+              let color = elementData[property]["color"];
+              let elementList = elementData[property]["elements"];
+              for (element in elementList) {
+                let elementBox = document.createElement('a-box');
+                elementBox.setAttribute('element-box-info', {
+                  color: color,
+                  number: elementList[element]["number"],
+                  symbol: elementList[element]["symbol"],
+                  name: elementList[element]["name"],
+                  weight: elementList[element]["weight"],
+                  groupName: periodicGroupName,
+                });
+                document.getElementById('menuOne').appendChild(elementBox);
+              }
+            }
+          }
+        }
+      }
+
       function destroyEntities(parentEntity) {
         while (parentEntity.firstChild) {
           parentEntity.removeChild(parentEntity.firstChild);
@@ -246,33 +331,11 @@
 
         // Reset the menu
         let guiMenu = document.getElementById('menuPanel');
-
         guiMenu.setAttribute('animation__rotate', {property: 'rotation', dur: 1000, easing: "easeInSine", loop: false, to: {x:0, y:0, z:0}});
+        guiMenu.setAttribute('animation__position', {property: 'position', dur: 1000, easing: "easeInSine", loop: false, to: {x:0, y:-1, z:-7}});
 
         renderBackground(sceneEl);
-
-        for (let property in elementData) {
-          if (elementData[property]["name"] === periodicGroupName) {
-
-            let color = elementData[property]["color"];
-            let elementList = elementData[property]["elements"];
-
-            for (element in elementList) {
-              let elementBox = document.createElement('a-box');
-
-              elementBox.setAttribute('element-box-info', {
-                color: color,
-                number: elementList[element]["number"],
-                symbol: elementList[element]["symbol"],
-                name: elementList[element]["name"],
-                weight: elementList[element]["weight"],
-                groupName: periodicGroupName,
-              });
-
-              document.getElementById('boxMenu').appendChild(elementBox);
-            }
-          }
-        }
+        createBoxes(periodicGroupName);
       }
 
       function renderMainMenu() {
@@ -349,6 +412,9 @@
         <a-entity id="menuTwo" layout="type: circle; radius: 1.5" position="0 0 -0.6"></a-entity>
       </a-entity>
 
+      <!-- Atom Scene -->
+      <a-entity id="atomScene"></a-entity>
+
       <!-- Credit Panel-->
       <a-plane id="creditPanel" color="#33ccff" height="3" width="4" position="0 -2.5 5" rotation="-45 180 0">
         <a-text value="Created by Daniel Rubio" position="0 1 0" align="center"></a-text>
@@ -367,7 +433,7 @@
       <a-entity>
         <a-gui-flex-container id='menuPanel' visible="true" flex-direction="column" justify-content="center"
           align-items="center" component-padding="0.1" opacity="1"
-          width="4" height="2" position="0 -1 -5" rotation="0 0 0" panel-color="#33ccff">
+          width="4" height="2" position="0 -1 -7" rotation="0 0 0" panel-color="#33ccff">
           <a-animation attribute="scale" from="0 1 1" to="1 1 1" dur="750" delay="400"
                          fill="backwards"></a-animation>
           <a-gui-label

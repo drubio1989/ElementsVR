@@ -71,7 +71,7 @@ AFRAME.registerComponent("element-box-info",{
     el.addEventListener('click', function (event) {
       // Remove all elements
       while (boxMenu.firstChild) {
-      boxMenu.removeChild(boxMenu.firstChild);
+        boxMenu.removeChild(boxMenu.firstChild);
       }
 
       //Remove the background
@@ -80,9 +80,6 @@ AFRAME.registerComponent("element-box-info",{
         backgroundContainer.removeChild(backgroundContainer.firstChild);
       }
 
-      let sceneEl = document.querySelector('a-scene');
-      let atomContainer = document.createElement('a-entity');
-      sceneEl.appendChild(atomContainer);
       let atom = document.createElement('a-sphere');
       atom.className = groupName;
       atom.id = 'atom';
@@ -93,7 +90,7 @@ AFRAME.registerComponent("element-box-info",{
                                               atomicNumber: parseInt(numberInfo),
                                               massNumber: Math.floor(parseFloat(weightInfo)),
                                               elementName: nameInfo});
-      atomContainer.appendChild(atom);
+      document.getElementById('atomScene').appendChild(atom);
 
       // Animate the gui Menu to proper position
       let guiMenu = document.getElementById('menuPanel');

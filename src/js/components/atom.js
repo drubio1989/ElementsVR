@@ -66,10 +66,8 @@ AFRAME.registerComponent('charged-particles', {
       coordinate = 2;
 
     do {
-      console.log('hello');
       numberOfCurvePoints = 1;
       do {
-        console.log(numberOfCurvePoints);
         let curvePoint = document.getElementById('shell' + mainShellNumber + 'point' + numberOfCurvePoints);
         if (numberOfCurvePoints === 1)
           curvePoint.setAttribute('position', {x:0, y:coordinate, z:-3});

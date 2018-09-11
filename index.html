@@ -193,31 +193,6 @@
                   }
       };
 
-      function layout(elementData, periodicGroup, menuEntity) {
-        for (let property in elementData) {
-          if (elementData[property]["name"] === periodicGroupName) {
-
-            let color = elementData[property]["color"];
-            let elementList = elementData[property]["elements"];
-
-            for (element in elementList) {
-              let elementBox = document.createElement('a-box');
-
-              elementBox.setAttribute('element-box-info', {
-                color: color,
-                number: elementList[element]["number"],
-                symbol: elementList[element]["symbol"],
-                name: elementList[element]["name"],
-                weight: elementList[element]["weight"],
-                groupName: periodicGroupName,
-              });
-
-              document.getElementById(menuEntity).appendChild(elementBox);
-            }
-          }
-        }
-      }
-
       function createBoxes(periodicGroupName) {
         if (periodicGroupName === "Transition Metals") {
           let transitionMetals = elementData["group5"]
@@ -330,9 +305,9 @@
         hideElement(document.getElementById('backMenuButton'));
 
         // Reset the menu
-        let guiMenu = document.getElementById('menuPanel');
-        guiMenu.setAttribute('animation__rotate', {property: 'rotation', dur: 1000, easing: "easeInSine", loop: false, to: {x:0, y:0, z:0}});
-        guiMenu.setAttribute('animation__position', {property: 'position', dur: 1000, easing: "easeInSine", loop: false, to: {x:0, y:-1, z:-7}});
+        let menuPanel = document.getElementById('menuPanel');
+        menuPanel.setAttribute('animation__rotate', {property: 'rotation', dur: 1000, easing: "easeInSine", loop: false, to: {x:0, y:0, z:0}});
+        menuPanel.setAttribute('animation__position', {property: 'position', dur: 1000, easing: "easeInSine", loop: false, to: {x:0, y:-1, z:-7}});
 
         renderBackground(sceneEl);
         createBoxes(periodicGroupName);
@@ -361,6 +336,9 @@
 
         //Hide the Menu Panel
         hideElement(document.getElementById('menuPanel'));
+        let menuPanel = document.getElementById('menuPanel');
+        menuPanel.setAttribute('animation__rotate', {property: 'rotation', dur: 1000, easing: "easeInSine", loop: false, to: {x:0, y:0, z:0}});
+        menuPanel.setAttribute('animation__position', {property: 'position', dur: 1000, easing: "easeInSine", loop: false, to: {x:0, y:-1, z:-7}});
 
         //Hide the 'Back button'
         hideElement(document.getElementById('backMenuButton'));

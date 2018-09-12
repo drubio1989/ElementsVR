@@ -5,6 +5,18 @@ AFRAME.registerComponent("group-spheres", {
     elements: {type: 'array'},
   },
 
+  createInfoPanels: function(el, groupName, color) {
+    let planePosXYZ = el.getAttribute('position');
+    let periodicInfoPlane = document.createElement('a-text');
+    periodicInfoPlane.id = groupName;
+    periodicInfoPlane.setAttribute('visible',false);
+    periodicInfoPlane.setAttribute('color', color);
+    periodicInfoPlane.setAttribute('position', {x:Math.floor(planePosXYZ.x) +1,
+                                                y:Math.floor(planePosXYZ.y) +1,
+                                                z:Math.floor(planePosXYZ.z) });
+    document.querySelector('a-scene').appendChild(periodicInfoPlane);
+  },
+
   init: function () {
     let mainScene = this.el.parentNode;
     let el = this.el;
@@ -19,12 +31,21 @@ AFRAME.registerComponent("group-spheres", {
     el.setAttribute('animation__scale',{property: 'scale', dur: 1000, easing: "easeInSine",
                                         loop: false, from: {x:0,y:0, z:0}, to: {x:1,y:1, z:1}});
 
+    this.createInfoPanels(el, groupName, color);
+
     el.addEventListener('mouseenter', function () {
       el.setAttribute('opacity', 1);
+      let planeRotXYZ = document.querySelector('a-camera').getAttribute('rotation');
+      document.getElementById(groupName).setAttribute('visible',true);
+      document.getElementById(groupName).setAttribute('value', groupName);
+      document.getElementById(groupName).setAttribute('rotation', {x:Math.floor(planeRotXYZ.x),
+                                                  y:Math.floor(planeRotXYZ.y),
+                                                  z:Math.floor(planeRotXYZ.z)});
     });
 
     el.addEventListener('mouseleave', function() {
       el.setAttribute('opacity', 0.5);
+      document.getElementById(groupName).setAttribute('visible',false);
     });
 
     function createBoxes(listOfElements, menuEntity) {

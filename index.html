@@ -357,8 +357,6 @@
       }
 
       function renderBackground() {
-        document.getElementById('backgroundScene');
-
         counter = 0;
         do {
           let backgroundAtom = document.createElement('a-sphere');
@@ -371,7 +369,7 @@
     </script>
   </head>
   <body>
-    <a-scene background="">
+    <a-scene>
       <a-assets>
          <img id="atom-image" src="https://ucarecdn.com/9cf7730a-5b3f-4335-8aef-1d25472c45f8/">
          <img id="github" src="https://ucarecdn.com/d3d87fb1-48cf-46ba-addc-38496f82f7c6/">
@@ -383,19 +381,19 @@
       <a-entity id="backgroundScene" layout="type: dodecahedron; radius: 15" position="0 0 0"></a-entity>
 
       <!-- Main Scene -->
-      <a-entity id="mainScene" layout="type: dodecahedron; radius: 4" position="0 0 -0.5"></a-entity>
+      <a-entity id="mainScene" layout="type: dodecahedron; radius: 7" position="0 0 -0.5"></a-entity>
 
       <!-- Box Menu Scene -->
       <a-entity id="boxScene">
-        <a-entity id="menuOne" layout="type: circle; radius: 1" position="0 0 -0.6"></a-entity>
-        <a-entity id="menuTwo" layout="type: circle; radius: 1.5" position="0 0 -0.6"></a-entity>
+        <a-entity id="menuOne" layout="type: circle; radius: 1.25" position="0 0 -1"></a-entity>
+        <a-entity id="menuTwo" layout="type: circle; radius: 1.75" position="0 0 -1"></a-entity>
       </a-entity>
 
       <!-- Atom Scene -->
       <a-entity id="atomScene"></a-entity>
 
       <!-- Credit Panel-->
-      <a-plane id="creditPanel" color="#33ccff" height="3" width="4" position="0 -2.5 5" rotation="-45 180 0">
+      <a-plane id="creditPanel" color="#33ccff" height="3" width="4" position="0 -2.5 7" rotation="-45 180 0">
         <a-text value="Created by Daniel Rubio" position="0 1 0" align="center"></a-text>
         <a-image src="#github" position="-1 0.5 0" scale="0.5 0.5 0.5"></a-image>
         <a-text value="drubio1989" position="0 0.5 0" align="center"></a-text>

@@ -12,7 +12,7 @@ AFRAME.registerComponent("element-box-info",{
     // Set up the menuGui
     let menuPanel = document.getElementById('menuPanel');
 
-    menuPanel.setAttribute('position', {x:0, y:-1, z:-5});
+    menuPanel.setAttribute('position', {x:0, y:-1, z:-7});
     menuPanel.setAttribute('visible', true);
     menuPanel.setAttribute('animation__scale', {property: 'scale', dur: 1000, fill: "backwards",
                                                 from: {x:0,y:1, z:1}, to: {x:1,y:1, z:1}});
@@ -94,8 +94,6 @@ AFRAME.registerComponent("element-box-info",{
 
       // Animate the gui Menu to proper position
       let guiMenu = document.getElementById('menuPanel');
-
-      //Why won't this animation reset????!!!!!
       guiMenu.setAttribute('animation__position', {property: 'position', dur: 1000, easing: "easeInSine", loop: false, to: {x:5, y:-1, z:-5}});
       guiMenu.setAttribute('animation__rotate', {property: 'rotation', dur: 1000, easing: "easeInSine", loop: false, to: {x:0, y:-45, z:0}});
 

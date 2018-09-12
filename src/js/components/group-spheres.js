@@ -25,7 +25,7 @@ AFRAME.registerComponent("group-spheres", {
     let groupName = this.data.groupName;
 
     // Style the sphere
-    el.setAttribute('radius', 0.5);
+    el.setAttribute('radius', 1);
     el.setAttribute('color', this.data.color);
     el.setAttribute('opacity', 0.5);
     el.setAttribute('animation__scale',{property: 'scale', dur: 1000, easing: "easeInSine",

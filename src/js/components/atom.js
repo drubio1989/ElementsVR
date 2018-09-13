@@ -22,7 +22,6 @@ AFRAME.registerComponent('charged-particles', {
 
     $.getJSON(service_url + '?callback=?', params, function(response) {
       $.each(response.itemListElement, function(i, element) {
-
         elementNameText.setAttribute('value',element['result']['name']);
         elementNameText.setAttribute('align', 'center');
         elementNameText.setAttribute('position', {x:0, y:2, z:0});
@@ -37,15 +36,12 @@ AFRAME.registerComponent('charged-particles', {
         elementArticleText.setAttribute('align', 'center');
         elementArticleText.setAttribute('wrapCount', 60);
         googlePanel.appendChild(elementArticleText);
-
       });
     });
     googlePanel.setAttribute('visible', true);
     googlePanel.setAttribute('animation__scale', {property: 'scale', dur: 1000, fill: "backwards",
                                                   from: {x:0,y:1, z:1}, to: {x:1,y:1, z:1}});
   },
-
-
 
   _setShellPointConfigurations: function(mainShellNumber, numberOfCurvePoints = 1) {
     let coordinate = 0;
@@ -70,13 +66,13 @@ AFRAME.registerComponent('charged-particles', {
       do {
         let curvePoint = document.getElementById('shell' + mainShellNumber + 'point' + numberOfCurvePoints);
         if (numberOfCurvePoints === 1)
-          curvePoint.setAttribute('position', {x:0, y:coordinate, z:-3});
+          curvePoint.setAttribute('position', {x:0, y:coordinate, z:-7});
         else if (numberOfCurvePoints === 2)
-          curvePoint.setAttribute('position', {x:coordinate, y:0, z:-3});
+          curvePoint.setAttribute('position', {x:coordinate, y:0, z:-7});
         else if (numberOfCurvePoints === 3)
-          curvePoint.setAttribute('position', {x:0, y:(-coordinate), z:-3});
+          curvePoint.setAttribute('position', {x:0, y:(-coordinate), z:-7});
         else if (numberOfCurvePoints === 4)
-          curvePoint.setAttribute('position',  {x:(-coordinate), y:0, z:-3});
+          curvePoint.setAttribute('position',  {x:(-coordinate), y:0, z:-7});
 
         numberOfCurvePoints = numberOfCurvePoints + 1;
 
@@ -163,7 +159,7 @@ AFRAME.registerComponent('charged-particles', {
     do {
       let atom = document.createElement('a-sphere');
       atom.setAttribute('color', color);
-      atom.setAttribute('radius', 0.05);
+      atom.setAttribute('radius',0.05);
       atom.setAttribute('position', {x:(Math.random() * 0.4) - 0.3,
                                      y:(Math.random() * 0.4) - 0.3,
                                      z:(Math.random() * 0.4) - 0.3});
@@ -198,7 +194,7 @@ AFRAME.registerComponent('charged-particles', {
       case atomicNumber <= 18:
         this._createShell(3);
         this._electronConfiguration(atomicNumber, '1s2s2p3s3p');
-        // this._setShellPointConfigurations(3);
+        this._setShellPointConfigurations(3);
         break;
 
       case atomicNumber <= 36:
@@ -237,7 +233,7 @@ AFRAME.registerComponent('charged-particles', {
     //Create the main atom
     let el = this.el;
     el.setAttribute('color', '#4ED4F9');
-    el.setAttribute('position', {x: 0, y: 0, z: -3});
+    el.setAttribute('position', {x: 0, y: 0, z: -7});
     el.setAttribute('opacity', 0.2);
 
     // Create the protons, electrons, and neutrons

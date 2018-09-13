@@ -18,7 +18,7 @@
     <script src="src/js/components/background-atom.js"></script>
     <script type="text/javascript">
       const elementData = {
-        "group1": {"color": "red",
+        "group1": {"color": "#E52D2D",
                     "name": "Alkalai Metals",
                     "elements": [
                       {number: "3", symbol:"Li", name:"Lithium", weight:"6.941"},
@@ -29,7 +29,7 @@
                       {number: "87", symbol:"Fr", name:"Francium", weight:"(223)"}
                   ]
                 },
-        "group2": {"color": "orange",
+        "group2": {"color": "#DA8E00",
                   "name": "Alkaline Earth Metals",
                   "elements": [
                     {number: "4", symbol:"Be", name:"Beryllium", weight:"9.012182"},
@@ -40,7 +40,7 @@
                     {number: "88", symbol:"Ra", name:"Radium", weight:"(226)"}
                   ]
                 },
-        "group3": {"color": "yellow",
+        "group3": {"color": "#2FA732",
                   "name": "Lanthanides",
                   "elements": [
                     {number: "57", symbol:"La", name:"Lanthanum", weight:"138.90547"},
@@ -60,7 +60,7 @@
                     {number: "71", symbol:"Lu", name:"Lutetium", weight:"174.9668"}
                   ]
                 },
-        "group4": {"color": "green",
+        "group4": {"color": "#2D4FE5",
                   "name": "Actinides",
                   "elements": [
                     {number: "89", symbol:"Ac", name:"Actinium", weight:"(227)"},
@@ -80,7 +80,7 @@
                     {number: "105", symbol:"Lr", name:"Lawrencium", weight:"(262)"}
                   ]
                 },
-        "group5": {"color": "blue",
+        "group5": {"color": "#972CA7",
                   "name": "Transition Metals",
                   "elements": [
                     {number: "21", symbol:"Sc", name:"Scandium", weight:"44.955912"},
@@ -120,7 +120,7 @@
                     {number: "112", symbol:"Cn", name:"Copernicium", weight:"(285)"}
                   ]
                 },
-        "group6": {"color": "purple",
+        "group6": {"color": "#0078D1",
                   "name": "Post Transiton Metals",
                   "elements": [
                     {number: "13", symbol:"Al", name:"Aluminium", weight:"26.9815386"},
@@ -133,7 +133,7 @@
                     {number: "84", symbol:"Po", name:"Polonium", weight:"(209)"}
                   ]
                 },
-        "group7": {"color": "brown",
+        "group7": {"color": "#74643C",
                   "name": "Metalloid",
                   "elements": [
                     {number: "5", symbol:"B", name:"Boron", weight:"10.811"},
@@ -144,7 +144,7 @@
                     {number: "52", symbol:"Te", name:"Tellurium", weight:"127.6"}
                   ]
                 },
-        "group8": {"color": "pink",
+        "group8": {"color": "#E76DC2",
                   "name": "Non Metals",
                   "elements": [
                     {number: "1", symbol: "H", name:'Hydrogen', weight: "1.00794"},
@@ -156,7 +156,7 @@
                     {number: "34", symbol:"Se", name:"Selenium", weight:"78.96"}
                   ]
                 },
-        "group9": {"color": "white",
+        "group9": {"color": "black",
                   "name": "Halogens",
                   "elements": [
                     {number: "9", symbol:"F", name:"Fluorine", weight:"18.9984032"},
@@ -166,7 +166,7 @@
                     {number: "85", symbol:"At", name:"Astatine", weight:"(210)"},
                   ]
                 },
-        "group10": {"color": "#1AFFF1",
+        "group10": {"color": "#8DAF78",
                     "name": "Noble Gases",
                     "elements": [
                       {number: "2", symbol:"He", name:"Helium", weight:"4.002602"},
@@ -369,10 +369,11 @@
     </script>
   </head>
   <body>
-    <a-scene>
+    <a-scene background="color: white">
       <a-assets>
-         <img id="atom-image" src="https://ucarecdn.com/9cf7730a-5b3f-4335-8aef-1d25472c45f8/">
-         <img id="github" src="https://ucarecdn.com/d3d87fb1-48cf-46ba-addc-38496f82f7c6/">
+        <!-- <audio src="https://ucarecdn.com/b6d1f031-1881-47c4-8aa1-d4cf36eff06b/" autoplay preload></audio> -->
+        <img id="atom-image" src="https://ucarecdn.com/9cf7730a-5b3f-4335-8aef-1d25472c45f8/">
+        <img id="github" src="https://ucarecdn.com/d3d87fb1-48cf-46ba-addc-38496f82f7c6/">
       </a-assets>
 
       <!--Set up the scene entities -->
@@ -385,8 +386,8 @@
 
       <!-- Box Menu Scene -->
       <a-entity id="boxScene">
-        <a-entity id="menuOne" layout="type: circle; radius: 1.25" position="0 0 -1"></a-entity>
-        <a-entity id="menuTwo" layout="type: circle; radius: 1.75" position="0 0 -1"></a-entity>
+        <a-entity id="menuOne" layout="type: circle; radius: 1.25" position="0 0 -0.8"></a-entity>
+        <a-entity id="menuTwo" layout="type: circle; radius: 1.75" position="0 0 -0.8"></a-entity>
       </a-entity>
 
       <!-- Atom Scene -->
@@ -403,7 +404,7 @@
 
       <!--Google Info Panel-->
       <a-entity>
-        <a-plane id="googlePanel" visible="false" height="5" width="5" position="-5 0 -5" rotation="0 45 0" color="#EF2D5E"></a-plane>
+        <a-plane id="googlePanel" visible="false" height="5" width="5" position="-5 0 -5" rotation="0 45 0" color="#33ccff"></a-plane>
       </a-entity>
 
       <!-- Dynamic Menu Panel -->

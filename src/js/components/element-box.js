@@ -65,15 +65,21 @@ AFRAME.registerComponent("element-box-info",{
       el.setAttribute('scale', {x:1, y:1, z:1})
     });
 
-    let boxMenu = this.el.parentNode;
+    let menuOne = document.getElementById('menuOne');
+    let menuTwo = document.getElementById('menuTwo');
     let groupName = this.data.groupName;
 
     el.addEventListener('click', function (event) {
       // Remove all elements
-      while (boxMenu.firstChild) {
-        boxMenu.removeChild(boxMenu.firstChild);
+      if (menuOne.children[0] !== null || menuTwo.children[0] !== null) {
+        while(menuOne.firstChild) {
+          menuOne.removeChild(menuOne.firstChild);
+        }
+        while(menuTwo.firstChild) {
+          menuTwo.removeChild(menuTwo.firstChild);
+        }
       }
-
+    
       //Remove the background
       let backgroundContainer = document.querySelectorAll('.backgroundAtom')[0].parentNode;
       while (backgroundContainer.firstChild) {
@@ -85,7 +91,7 @@ AFRAME.registerComponent("element-box-info",{
       atom.id = 'atom';
       // atom.className = groupName;
       atom.setAttribute('animation__scale',{property: 'scale', dur: 1000, easing: "easeInSine",
-                                          loop: false, from: {x:0,y:0, z:0}, to: {x:1,y:1, z:1}});
+                                          loop: false, from: {x:0,y:0, z:0}, to: {x:1.5,y:1.5, z:1.5}});
       atom.setAttribute('charged-particles', {color: color,
                                               atomicNumber: parseInt(numberInfo),
                                               massNumber: Math.floor(parseFloat(weightInfo)),

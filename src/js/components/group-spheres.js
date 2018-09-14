@@ -80,6 +80,7 @@ AFRAME.registerComponent("group-spheres", {
     el.addEventListener('click', function() {
       let sceneEl = document.querySelector('a-scene');
 
+      document.querySelector('a-sound').components.sound.playSound();
       // Remove all sphere elements
       while (mainScene.firstChild) {
         mainScene.removeChild(mainScene.firstChild);

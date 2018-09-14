@@ -79,7 +79,9 @@ AFRAME.registerComponent("element-box-info",{
           menuTwo.removeChild(menuTwo.firstChild);
         }
       }
-    
+
+      document.querySelector('a-sound').components.sound.playSound();
+
       //Remove the background
       let backgroundContainer = document.querySelectorAll('.backgroundAtom')[0].parentNode;
       while (backgroundContainer.firstChild) {

@@ -93,7 +93,7 @@ AFRAME.registerComponent("element-box-info",{
       atom.id = 'atom';
       // atom.className = groupName;
       atom.setAttribute('animation__scale',{property: 'scale', dur: 1000, easing: "easeInSine",
-                                          loop: false, from: {x:0,y:0, z:0}, to: {x:1.5,y:1.5, z:1.5}});
+                                          loop: false, from: {x:0,y:0, z:0}, to: {x:2,y:2, z:2}});
       atom.setAttribute('charged-particles', {color: color,
                                               atomicNumber: parseInt(numberInfo),
                                               massNumber: Math.floor(parseFloat(weightInfo)),

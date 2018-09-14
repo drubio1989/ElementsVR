@@ -10,10 +10,13 @@ AFRAME.registerComponent("group-spheres", {
     let periodicInfoText = document.createElement('a-text');
     periodicInfoText.id = groupName;
     periodicInfoText.setAttribute('visible',false);
-    periodicInfoText.setAttribute('color', 'black');
-    periodicInfoText.setAttribute('position', {x:Math.floor(planePosXYZ.x - 1.5),
-                                                y:Math.floor(planePosXYZ.y + 1.5),
-                                                z:Math.floor(planePosXYZ.z)});
+    periodicInfoText.setAttribute('color', color);
+    if (planePosXYZ.x < 0 || planePosXYZ.y < 0) {
+      periodicInfoText.setAttribute('position', {x:planePosXYZ.x + 1.5, y:planePosXYZ.y + 1.5, z:planePosXYZ.z});
+    } else {
+      periodicInfoText.setAttribute('position', {x:planePosXYZ.x - 1.5, y:planePosXYZ.y - 1.5, z:planePosXYZ.z});
+    }
+
     document.querySelector('a-scene').appendChild(periodicInfoText);
   },
 
@@ -33,7 +36,7 @@ AFRAME.registerComponent("group-spheres", {
 
     this.createInfoText(el, groupName, color);
 
-    el.addEventListener('mouseenter', function () {
+    el.addEventListener('mouseenter', function (evt) {
       el.setAttribute('scale', {x:1.3, y:1.3, z:1.3});
       let planeRotXYZ = document.querySelector('a-camera').getAttribute('rotation');
       document.getElementById(groupName).setAttribute('visible',true);
